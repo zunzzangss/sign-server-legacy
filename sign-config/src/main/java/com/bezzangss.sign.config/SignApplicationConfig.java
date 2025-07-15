@@ -1,0 +1,40 @@
+package com.bezzangss.sign.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
+@PropertySource(
+        value = {
+//                "classpath:configs/restricted/config-restricted.properties",
+//                "classpath:configs/config-application.properties",
+//                "classpath:configs/config-converter.properties",
+//                "classpath:configs/config-datasource.properties",
+//                "classpath:configs/config-flyway.properties",
+//                "classpath:configs/config-notification-mail.properties",
+//                "classpath:configs/config-notification-mail-smtp.properties",
+//                "classpath:configs/config-hook.properties",
+//                "classpath:configs/config-notification-kakao.properties",
+//                "classpath:configs/config-notification-kakao-directsend.properties",
+                "classpath:application.properties",
+//                "classpath:application-${spring.profiles.active}.properties",
+        },
+        encoding = "UTF-8"
+)
+@ComponentScan(basePackages = "com.bezzangss")
+@EnableScheduling
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
+@Configuration
+public class SignApplicationConfig {
+    @PostConstruct
+    public void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+}
