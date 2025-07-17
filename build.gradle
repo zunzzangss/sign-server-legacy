@@ -114,3 +114,36 @@ project(':sign-config') {
 
     jar.enabled(true)
 }
+
+project(':sign-common') {
+    dependencies {
+    }
+
+    jar.enabled(true)
+}
+
+project(':sign-domain') {
+    dependencies {
+        implementation project(':sign-common')
+    }
+
+    jar.enabled(true)
+}
+
+project(':sign-application') {
+    dependencies {
+        implementation project(':sign-common')
+        implementation project(':sign-domain')
+    }
+
+    jar.enabled(true)
+}
+
+project(':sign-adapter-repository-jpa') {
+    dependencies {
+        implementation project(':sign-common')
+        implementation project(':sign-application')
+    }
+
+    jar.enabled(true)
+}
