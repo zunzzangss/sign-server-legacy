@@ -3,8 +3,8 @@ package com.bezzangss.sign.domain.documents._basedocument._templatedocument.aggr
 import com.bezzangss.sign.domain.DomainException;
 import com.bezzangss.sign.domain.documents._basedocument.BaseDocument;
 import com.bezzangss.sign.domain.documents._basedocument.BaseDocumentStatus;
-import com.bezzangss.sign.domain.documents._basedocument._templatedocument.dto.TemplateDocumentCreateRequest;
-import com.bezzangss.sign.domain.documents._basedocument._templatedocument.dto.TemplateDocumentUpdateRequest;
+import com.bezzangss.sign.domain.documents._basedocument._templatedocument.dto.TemplateDocumentDomainCreateRequest;
+import com.bezzangss.sign.domain.documents._basedocument._templatedocument.dto.TemplateDocumentDomainUpdateRequest;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
@@ -35,23 +35,23 @@ public class TemplateDocument implements BaseDocument {
         this.validate();
     }
 
-    public static TemplateDocument create(TemplateDocumentCreateRequest templateDocumentCreateRequest) {
+    public static TemplateDocument create(TemplateDocumentDomainCreateRequest templateDocumentDomainCreateRequest) {
         return TemplateDocument.builder()
-                .id(ObjectUtils.isEmpty(templateDocumentCreateRequest.getId()) ? UUID.randomUUID().toString() : templateDocumentCreateRequest.getId())
-                .name(templateDocumentCreateRequest.getName())
-                .description(templateDocumentCreateRequest.getDescription())
+                .id(ObjectUtils.isEmpty(templateDocumentDomainCreateRequest.getId()) ? UUID.randomUUID().toString() : templateDocumentDomainCreateRequest.getId())
+                .name(templateDocumentDomainCreateRequest.getName())
+                .description(templateDocumentDomainCreateRequest.getDescription())
                 .status(BaseDocumentStatus.NONE)
-                .createdAt(ObjectUtils.isEmpty(templateDocumentCreateRequest.getCreatedAt()) ? Instant.now() : templateDocumentCreateRequest.getCreatedAt())
-                .lastModifiedAt(templateDocumentCreateRequest.getLastModifiedAt())
+                .createdAt(ObjectUtils.isEmpty(templateDocumentDomainCreateRequest.getCreatedAt()) ? Instant.now() : templateDocumentDomainCreateRequest.getCreatedAt())
+                .lastModifiedAt(templateDocumentDomainCreateRequest.getLastModifiedAt())
                 .build();
     }
 
-    public void update(TemplateDocumentUpdateRequest templateDocumentUpdateRequest) {
+    public void update(TemplateDocumentDomainUpdateRequest templateDocumentDomainUpdateRequest) {
         if (!this.updatable()) throw new DomainException(TEMPLATE_DOCUMENT_IS_NOT_UPDATABLE_EXCEPTION, this.id);
 
-        if (templateDocumentUpdateRequest.getName() != null) this.name = templateDocumentUpdateRequest.getName();
-        if (templateDocumentUpdateRequest.getDescription() != null) this.description = templateDocumentUpdateRequest.getDescription().orElse(null);
-        if (templateDocumentUpdateRequest.getLastModifiedAt() != null) this.lastModifiedAt = templateDocumentUpdateRequest.getLastModifiedAt().orElse(Instant.now());
+        if (templateDocumentDomainUpdateRequest.getName() != null) this.name = templateDocumentDomainUpdateRequest.getName();
+        if (templateDocumentDomainUpdateRequest.getDescription() != null) this.description = templateDocumentDomainUpdateRequest.getDescription().orElse(null);
+        if (templateDocumentDomainUpdateRequest.getLastModifiedAt() != null) this.lastModifiedAt = templateDocumentDomainUpdateRequest.getLastModifiedAt().orElse(Instant.now());
 
         this.validate();
     }

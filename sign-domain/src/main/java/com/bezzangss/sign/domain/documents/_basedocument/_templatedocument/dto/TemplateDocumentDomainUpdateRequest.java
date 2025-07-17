@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Builder
 @Getter
-public class TemplateDocumentUpdateRequest {
+public class TemplateDocumentDomainUpdateRequest {
     private final String name;
     private final Optional<String> description;
     private final Optional<Instant> lastModifiedAt;

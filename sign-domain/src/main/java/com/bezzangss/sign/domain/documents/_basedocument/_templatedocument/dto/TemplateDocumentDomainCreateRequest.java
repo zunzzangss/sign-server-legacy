@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Builder
 @Getter
-public class TemplateDocumentCreateRequest {
+public class TemplateDocumentDomainCreateRequest {
     private final String id;
     private final String name;
     private final String description;
