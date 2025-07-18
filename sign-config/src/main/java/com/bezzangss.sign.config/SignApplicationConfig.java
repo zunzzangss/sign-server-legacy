@@ -22,8 +22,10 @@ import java.util.TimeZone;
 //                "classpath:configs/config-hook.properties",
 //                "classpath:configs/config-notification-kakao.properties",
 //                "classpath:configs/config-notification-kakao-directsend.properties",
-                "classpath:application.properties",
-//                "classpath:application-${spring.profiles.active}.properties",
+                "classpath:properties/application.properties",
+                "classpath:properties/application-${spring.profiles.active}.properties",
+                "classpath:properties/datasource/datasource.properties",
+                "classpath:properties/datasource/datasource-${datasource.profile.active}.properties",
         },
         encoding = "UTF-8"
 )

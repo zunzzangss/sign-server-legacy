@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        profile = project.hasProperty('profile') ? project.getProperty('profile') : 'local'
+        profile = project.hasProperty('profile') ? project.getProperty('profile') : 'dev'
         springVersion = '4.3.30.RELEASE'
         springSecurityVersion = '4.2.3.RELEASE'
     }
@@ -52,9 +52,6 @@ subprojects {
         implementation 'org.springframework.security:spring-security-web'
         implementation 'org.springframework.security:spring-security-config'
 
-        // jpa
-        implementation 'org.springframework.data:spring-data-jpa:1.11.23.RELEASE'
-
         // aop
         implementation 'org.aspectj:aspectjweaver:1.9.5'
 
@@ -103,6 +100,25 @@ project(':sign') {
 
     dependencies {
         implementation project(':sign-config')
+    }
+
+    tasks.withType(War) {
+        project.sourceSets.main.resources {
+            srcDir 'src/main/resources'
+            exclude 'properties/application-*.properties'
+        }
+
+        project.tasks.named('processResources') {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+            filesMatching('properties/application.properties') {
+                expand(profile: profile)
+            }
+
+            from('src/main/resources') {
+                include "properties/application-${profile}.properties"
+            }
+        }
     }
 
     war.enabled(true)
