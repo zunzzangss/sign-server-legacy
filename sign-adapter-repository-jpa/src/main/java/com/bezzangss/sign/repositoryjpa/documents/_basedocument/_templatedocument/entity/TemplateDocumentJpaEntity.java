@@ -30,10 +30,10 @@ public class TemplateDocumentJpaEntity implements Persistable<String> {
     @Column(name = "STATUS", nullable = false, length = 50)
     private String status;
 
-    @Column(name = "CREATED_DATE", nullable = false, updatable = false)
+    @Column(name = "CREATED_AT", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(name = "UPDATED_DATE")
+    @Column(name = "LAST_MODIFIED_AT")
     private Instant lastModifiedAt;
 
     @Builder
