@@ -1,4 +1,4 @@
-package com.bezzangss.sign.application.documents._basedocument._templatedocument.port.in.dto.response;
+package com.bezzangss.sign.application.resources.port.in.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,11 +7,12 @@ import java.time.Instant;
 
 @Builder
 @Getter
-public class TemplateDocumentApplicationResponse {
+public class ResourceApplicationResponse {
     private final String id;
     private final String name;
-    private final String description;
-    private final String status;
+    private final String type;
+    private final String path;
+    private final long size;
     private final Instant createdAt;
     private final Instant lastModifiedAt;
 }

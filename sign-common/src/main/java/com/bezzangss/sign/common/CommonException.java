@@ -1,16 +1,16 @@
-package com.bezzangss.sign.domain;
+package com.bezzangss.sign.common;
 
 import com.bezzangss.sign.common.exception.CustomException;
 import com.bezzangss.sign.common.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class DomainException extends CustomException {
-    public DomainException(ErrorCode errorCode) {
+public class CommonException extends CustomException {
+    public CommonException(ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public DomainException(ErrorCode errorCode, String message) {
+    public CommonException(ErrorCode errorCode, String message) {
         super(errorCode, message);
     }
 }
