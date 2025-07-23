@@ -14,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Component
 public class TemplateDocumentCommandApplication implements TemplateDocumentCommandApplicationPort {
-    private final TemplateDocumentRepositoryPort templateDocumentRepositoryOutPort;
-
     private final TemplateDocumentApplicationMapper templateDocumentServiceMapper;
+    private final TemplateDocumentRepositoryPort templateDocumentRepositoryOutPort;
 
     @Override
     public String create(TemplateDocumentApplicationCreateRequest templateDocumentApplicationCreateRequest) {

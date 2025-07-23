@@ -10,9 +10,8 @@ import java.time.Instant;
 @Getter
 public class ResourceCreateRequest {
     private String id;
-    private String name;
     private ResourceType type;
-    private String path;
+    private String source;
     private long size;
     private Instant createdAt;
     private Instant lastModifiedAt;

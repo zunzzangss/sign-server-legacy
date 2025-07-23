@@ -9,9 +9,8 @@ import java.time.Instant;
 @Getter
 public class ResourceRepositoryResponse {
     private final String id;
-    private final String name;
     private final String type;
-    private final String path;
+    private final String source;
     private final long size;
     private final Instant createdAt;
     private final Instant lastModifiedAt;

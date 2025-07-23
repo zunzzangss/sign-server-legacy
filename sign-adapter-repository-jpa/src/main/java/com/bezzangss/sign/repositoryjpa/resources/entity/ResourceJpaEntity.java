@@ -19,14 +19,11 @@ public class ResourceJpaEntity {
     @Column(name = "ID", length = 36)
     private String id;
 
-    @Column(name = "NAME", nullable = false, length = 100)
-    private String name;
-
     @Column(name = "TYPE", nullable = false, length = 50)
     private String type;
 
-    @Column(name = "C_PATH", length = 1000)
-    private String path;
+    @Column(name = "SOURCE", nullable = false, length = 1000)
+    private String source;
 
     @ColumnDefault("0")
     @Column(name = "C_SIZE", nullable = false)
@@ -39,11 +36,10 @@ public class ResourceJpaEntity {
     private Instant lastModifiedAt;
 
     @Builder
-    public ResourceJpaEntity(String id, String name, String type, String path, long size, Instant createdAt, Instant lastModifiedAt) {
+    public ResourceJpaEntity(String id, String type, String source, long size, Instant createdAt, Instant lastModifiedAt) {
         this.id = id;
-        this.name = name;
         this.type = type;
-        this.path = path;
+        this.source = source;
         this.size = size;
         this.createdAt = createdAt;
         this.lastModifiedAt = lastModifiedAt;

@@ -18,9 +18,8 @@ import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_E
 @Transactional(readOnly = true)
 @Component
 public class TemplateDocumentQueryApplication implements TemplateDocumentQueryApplicationPort {
-    private final TemplateDocumentRepositoryPort templateDocumentRepositoryOutPort;
-
     private final TemplateDocumentApplicationMapper templateDocumentServiceMapper;
+    private final TemplateDocumentRepositoryPort templateDocumentRepositoryOutPort;
 
     @Override
     public Optional<TemplateDocumentApplicationResponse> findById(String id) {
