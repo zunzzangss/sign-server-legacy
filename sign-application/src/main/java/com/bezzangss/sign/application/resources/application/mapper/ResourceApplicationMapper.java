@@ -4,7 +4,7 @@ import com.bezzangss.sign.application.resources.port.out.dto.request.ResourceRep
 import com.bezzangss.sign.application.resources.port.out.dto.response.ResourceRepositoryResponse;
 import com.bezzangss.sign.common.mapstruct.CommonMapper;
 import com.bezzangss.sign.common.mapstruct.CommonMapperConfigurer;
-import com.bezzangss.sign.domain.resource.aggregate.Resource;
+import com.bezzangss.sign.domain.resources.resource.aggregate.Resource;
 import org.mapstruct.Mapper;
 
 @Mapper(config = CommonMapperConfigurer.class)

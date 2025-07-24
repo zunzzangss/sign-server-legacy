@@ -15,13 +15,18 @@ public enum ErrorCode {
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(400_00_10, "HTTP 메시지 읽기 실패."),
 
     /**
+     * STORAGE
+     */
+    STORAGE_ILLEGAL_TYPE_EXCEPTION(500_10_20, "타입이 부적합합니다."),
+
+    /**
      * RESOURCE
      */
-    RESOURCE_NOT_FOUND_EXCEPTION(404_10_00, "정보가 존재하지 않습니다."),
+    RESOURCE_NOT_FOUND_EXCEPTION(404_11_00, "정보가 존재하지 않습니다."),
 
-    RESOURCE_WRITE_EXCEPTION(500_10_11, "리소스 쓰기 실패."),
+    RESOURCE_WRITE_EXCEPTION(500_11_11, "리소스 쓰기 실패."),
 
-    RESOURCE_ILLEGAL_TYPE_EXCEPTION(500_10_20, "타입이 부적합합니다."),
+    RESOURCE_ILLEGAL_TYPE_EXCEPTION(500_11_20, "타입이 부적합합니다."),
 
     /**
      * TEMPLATE_DOCUMENT

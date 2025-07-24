@@ -1,7 +1,7 @@
 package com.bezzangss.sign.application.resources.port.in.dto.request;
 
 import com.bezzangss.sign.application.ApplicationException;
-import com.bezzangss.sign.common.resource.ResourceStream;
+import com.bezzangss.sign.common.inputstream.InputStreamHandler;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
@@ -11,19 +11,15 @@ import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_E
 @Builder
 @Getter
 public class ResourceApplicationCreateRequest {
-    private final String id;
     private final String type;
-    private final String source;
-    private final ResourceStream resourceStream;
+    private final InputStreamHandler inputStreamHandler;
 
     @Builder
-    public ResourceApplicationCreateRequest(String id, String type, String source, ResourceStream resourceStream) {
+    public ResourceApplicationCreateRequest(String type, InputStreamHandler inputStreamHandler) {
         if (ObjectUtils.isEmpty(type)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "type");
-        if (ObjectUtils.isEmpty(resourceStream)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "resourceStream");
+        if (ObjectUtils.isEmpty(inputStreamHandler)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "inputStreamHandler");
 
-        this.id = id;
         this.type = type;
-        this.source = source;
-        this.resourceStream = resourceStream;
+        this.inputStreamHandler = inputStreamHandler;
     }
 }

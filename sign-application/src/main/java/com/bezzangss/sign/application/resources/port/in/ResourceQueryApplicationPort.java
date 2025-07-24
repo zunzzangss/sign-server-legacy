@@ -1,7 +1,7 @@
 package com.bezzangss.sign.application.resources.port.in;
 
-import com.bezzangss.sign.common.resource.ResourceStream;
+import com.bezzangss.sign.common.inputstream.InputStreamHandler;
 
 public interface ResourceQueryApplicationPort {
-    ResourceStream readById(String id);
+    InputStreamHandler readById(String id);
 }
