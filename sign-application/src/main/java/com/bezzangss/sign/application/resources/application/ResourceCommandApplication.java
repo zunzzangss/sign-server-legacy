@@ -7,6 +7,7 @@ import com.bezzangss.sign.application.resources.port.out.ResourceRepositoryPort;
 import com.bezzangss.sign.application.storage.application.bridge.StorageCommandApplicationBridge;
 import com.bezzangss.sign.application.storage.application.bridge.dto.request.StorageApplicationWriteRequest;
 import com.bezzangss.sign.application.storage.application.bridge.dto.response.StorageApplicationWriteResponse;
+import com.bezzangss.sign.common.enums.EnumConverter;
 import com.bezzangss.sign.domain.resources.resource.ResourceType;
 import com.bezzangss.sign.domain.resources.resource.aggregate.Resource;
 import com.bezzangss.sign.domain.resources.resource.dto.ResourceCreateRequest;
@@ -29,14 +30,14 @@ public class ResourceCommandApplication implements ResourceCommandApplicationPor
 
         StorageApplicationWriteResponse storageApplicationWriteResponse = storageCommandApplicationBridge.write(
                 StorageApplicationWriteRequest.builder()
-                        .typeProvider(ResourceType.from(type))
+                        .typeProvider(EnumConverter.from(ResourceType.class, type))
                         .inputStreamHandler(resourceApplicationCreateRequest.getInputStreamHandler())
                         .build()
         );
 
         Resource resource = Resource.create(
                 ResourceCreateRequest.builder()
-                        .type(ResourceType.from(type))
+                        .type(EnumConverter.from(ResourceType.class, type))
                         .source(storageApplicationWriteResponse.getSource())
                         .size(storageApplicationWriteResponse.getSize())
                         .build()

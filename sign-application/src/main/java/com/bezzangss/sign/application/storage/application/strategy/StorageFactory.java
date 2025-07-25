@@ -2,6 +2,7 @@ package com.bezzangss.sign.application.storage.application.strategy;
 
 import com.bezzangss.sign.application.ApplicationException;
 import com.bezzangss.sign.application.storage.port.out.StoragePort;
+import com.bezzangss.sign.common.enums.EnumConverter;
 import com.bezzangss.sign.domain.storage.StorageType;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public class StorageFactory {
     private final Map<StorageType, StoragePort> storagePortMap;
 
     public StorageFactory(List<StoragePort> storagePorts) {
-        this.storagePortMap = storagePorts.stream().collect(Collectors.toMap(storagePort -> StorageType.from(storagePort.getStorageType()), Function.identity()));
+        this.storagePortMap = storagePorts.stream().collect(Collectors.toMap(storagePort -> EnumConverter.from(StorageType.class, storagePort.getStorageType()), Function.identity()));
     }
 
     public StoragePort create(StorageType type) {
@@ -26,6 +27,6 @@ public class StorageFactory {
     }
 
     public StoragePort create(String type) {
-        return this.create(StorageType.from(type));
+        return this.create(EnumConverter.from(StorageType.class, type));
     }
 }
