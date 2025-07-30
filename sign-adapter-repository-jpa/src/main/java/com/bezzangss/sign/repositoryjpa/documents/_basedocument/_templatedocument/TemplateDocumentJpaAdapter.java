@@ -13,9 +13,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Repository
 public class TemplateDocumentJpaAdapter implements TemplateDocumentRepositoryPort {
-    private final TemplateDocumentJpaRepository templateDocumentJpaRepository;
-
     private final TemplateDocumentJpaMapper templateDocumentJpaMapper;
+    private final TemplateDocumentJpaRepository templateDocumentJpaRepository;
 
     @Override
     public String create(TemplateDocumentRepositoryCreateRequest templateDocumentRepositoryCreateRequest) {

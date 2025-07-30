@@ -29,6 +29,13 @@ public enum ErrorCode {
     RESOURCE_ILLEGAL_TYPE_EXCEPTION(500_11_20, "타입이 부적합합니다."),
 
     /**
+     * RESOURCE_REFERENCE
+     */
+    RESOURCE_REFERENCE_NOT_FOUND_EXCEPTION(404_12_00, "정보가 존재하지 않습니다."),
+
+    RESOURCE_REFERENCE_ILLEGAL_TYPE_EXCEPTION(500_12_20, "타입이 부적합합니다."),
+
+    /**
      * TEMPLATE_DOCUMENT
      */
     TEMPLATE_DOCUMENT_STATUS_IS_NONE_EXCEPTION(400_20_21, "NONE 상태입니다."),
