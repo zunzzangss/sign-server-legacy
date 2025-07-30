@@ -181,3 +181,22 @@ project(':sign-adapter-storage-ftp') {
 
     jar.enabled(true)
 }
+
+project(':sign-adapter-web') {
+    dependencies {
+        implementation project(':sign-common')
+        implementation project(':sign-application')
+    }
+
+    jar.enabled(true)
+}
+
+project(':sign-adapter-web-internal') {
+    dependencies {
+        implementation project(':sign-common')
+        implementation project(':sign-application')
+        implementation project(':sign-adapter-web')
+    }
+
+    jar.enabled(true)
+}
