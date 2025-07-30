@@ -164,7 +164,7 @@ project(':sign-adapter-repository-jpa') {
     jar.enabled(true)
 }
 
-project(':sign-adapter-filesystem') {
+project(':sign-adapter-storage-filesystem') {
     dependencies {
         implementation project(':sign-common')
         implementation project(':sign-application')
@@ -173,7 +173,7 @@ project(':sign-adapter-filesystem') {
     jar.enabled(true)
 }
 
-project(':sign-adapter-ftp') {
+project(':sign-adapter-storage-ftp') {
     dependencies {
         implementation project(':sign-common')
         implementation project(':sign-application')
