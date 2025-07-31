@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
-    <property resource="application.properties"/>
+    <property name="prefix-path" value="/Users/kohhyunjin/Project/sign/logs"/>
+    <property name="logging.level.root" value="INFO"/>
+    <property name="logging.level.com.bezzangss" value="INFO"/>
 
     <!-- 파일 로그 설정 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 로그 파일 경로 -->
-        <file>${com.bezzangss.sign.log.prefix-path}/sign.log</file>
+        <file>${prefix-path}/sign.log</file>
         <!-- 롤링 정책 설정 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 롤링 파일 이름 패턴 -->
-            <fileNamePattern>${com.bezzangss.sign.log.prefix-path}/sign.log.%d{yyyy-MM-dd}-%i</fileNamePattern>
+            <fileNamePattern>${prefix-path}/sign.log.%d{yyyy-MM-dd}-%i</fileNamePattern>
             <!-- 최대 로그 보관 기간 -->
             <maxHistory>30</maxHistory>
             <!-- 최대 파일 크기 -->
