@@ -1,0 +1,31 @@
+리소스 정보입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-resources-resource-create-by-file]]
+== *생성 (By 멀티파트 파일)*
+
+*Request*
+
+* Method : POST
+* Path : ``/internal/v1/resource/create-by-file``
+* Content-Type : ``multipart/form-data``
+* Header
+* Body
+
+[cols="2,7"]
+include::{snippets}/resources/resource/create-by-file/request-parts.adoc[]
+
+include::{snippets}/resources/resource/create-by-file/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/resources/resource/create-by-file/response-fields.adoc[]
+
+include::{snippets}/resources/resource/create-by-file/http-response.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/resources/resource/create-by-file/response-fields-contents.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

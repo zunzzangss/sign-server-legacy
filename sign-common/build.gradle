@@ -1,2 +1,7 @@
+task asciidocErrorCode(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.bezzangss.sign.common.exception.ErrorCodeAsciidoc'
+}
+
 dependencies {
 }

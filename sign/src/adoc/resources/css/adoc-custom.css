@@ -1,0 +1,19 @@
+.required {
+    color: blue;
+}
+
+.optional {
+    color: grey;
+}
+
+summary {
+    cursor: pointer;
+}
+
+summary::before {
+    content: "▶ ";
+}
+
+details[open] summary::before {
+    content: "▼ ";
+}

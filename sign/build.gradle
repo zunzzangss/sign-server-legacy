@@ -1,2 +1,16 @@
 dependencies {
 }
+
+task asciidocCss {
+    def defaultCss = file("src/adoc/resources/css/adoc-default.css")
+    def customCss = file("src/adoc/resources/css/adoc-custom.css")
+    if (!defaultCss.exists()) throw new GradleException(defaultCss.getPath())
+    if (!customCss.exists()) throw new GradleException(customCss.getPath())
+
+    doLast {
+        def cssDir = file("$buildDir/adoc/css")
+        cssDir.mkdirs()
+        new File(cssDir, "adoc.css").text = defaultCss.text + customCss.text
+    }
+}
+

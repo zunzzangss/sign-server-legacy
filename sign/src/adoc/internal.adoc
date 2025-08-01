@@ -1,0 +1,61 @@
+= Internal Web API
+:toc: left
+:toclevels: 7
+:doctype: book
+:source-highlighter: highlightjs
+:sectnums:
+:sectnumlevels: 7
+:sectlinks:
+:favicon:
+:icons: font
+
+== *개요*
+Internal Web API 매뉴얼입니다. +
+
+== *변경 이력*
+include::internal/internal-changelog.adoc[]
+
+== *Backend API*
+HTTP 프로토콜 기반 Backend API 를 제공합니다. +
+
+[[link-reference]]
+=== *Reference*
+
+[[link-reference-resources]]
+==== *리소스 (Resources)*
+
+[[link-reference-resource]]
+===== *리소스 (Resource)*
+
+include::internal/resources/resource/resource.adoc[leveloffset=+4]
+
+[[link-reference-documents]]
+==== *문서 (Documents)*
+
+[[link-reference-template-document]]
+===== *서식 문서 (Template Document)*
+
+include::internal/documents/basedocument/templatedocument/template-document.adoc[leveloffset=+4]
+
+[[link-error]]
+=== *에러코드*
+
+==== *형식*
+
+<<link-error-reference, Reference>> 에서는 `이름(에러코드, 기본 메세지)` 형식으로 기술합니다. +
+서버 내부 오류 발생 시, Response Body 의 error 는 아래와 같이 리턴됩니다. +
+
+```jsx
+error : {
+    code : 5000000,
+    message : '서버 내부 오류'
+}
+```
+
+code : 에러코드는 정수형으로 리턴됩니다. +
+message : `기본 메세지 + 상세 메세지` 처럼 `기본 메세지` 에 `상세 메세지` 가 추가되어 리턴될 수 있습니다. +
+
+[[link-error-reference]]
+==== *Reference*
+
+include::error-code.adoc[leveloffset=+2]

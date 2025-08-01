@@ -93,6 +93,35 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
+
+    // restdoc
+    task asciidocInternal(type: org.asciidoctor.gradle.jvm.AsciidoctorTask) {
+        dependsOn ':sign:asciidocCss'
+        dependsOn ':sign-common:asciidocErrorCode'
+
+        sourceDir = file("src/adoc")
+        outputDir = file("build/adoc/internal")
+
+        sources {
+            include "internal.adoc"
+        }
+
+        inputs.dir("build/generated-snippets-web-internal")
+
+        attributes 'snippets': file("build/generated-snippets-web-internal"),
+                'revnumber': version,
+                'stylesheet': 'adoc.css',
+                'stylesdir': 'resources/css',
+                'linkcss': false
+
+        doFirst {
+            baseDir = sourceDir
+            def cssDir = file("$buildDir/adoc/css")
+            def css = new File(cssDir, "adoc.css")
+            file("$sourceDir/resources/css/adoc.css").text = css.text
+        }
+    }
+    build.dependsOn asciidocInternal
 }
 
 project(':sign') {

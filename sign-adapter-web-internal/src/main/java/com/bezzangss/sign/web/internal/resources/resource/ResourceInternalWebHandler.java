@@ -25,7 +25,7 @@ public class ResourceInternalWebHandler {
     public WebResponse<ResourceInternalWebResponse> createByMultipartFile(ResourceInternalWebCreateByMultipartFileRequest resourceInternalWebCreateByMultipartFileRequest) {
         String id = resourceCommandApplicationPort.create(
                 ResourceApplicationCreateRequest.builder()
-                        .type("")
+                        .type("FILE_SYSTEM")
                         .inputStreamHandler(InputStreamHandler.create(() -> resourceInternalWebCreateByMultipartFileRequest.getFile().getInputStream()))
                         .build()
         );

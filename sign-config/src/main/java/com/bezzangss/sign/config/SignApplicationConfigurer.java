@@ -24,7 +24,7 @@ import java.util.TimeZone;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @Configuration
-public class SignApplicationConfig {
+public class SignApplicationConfigurer {
     @PostConstruct
     public void init() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
