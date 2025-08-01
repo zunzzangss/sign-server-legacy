@@ -12,16 +12,6 @@ import java.util.TimeZone;
 
 @PropertySource(
         value = {
-//                "classpath:configs/restricted/config-restricted.properties",
-//                "classpath:configs/config-application.properties",
-//                "classpath:configs/config-converter.properties",
-//                "classpath:configs/config-datasource.properties",
-//                "classpath:configs/config-flyway.properties",
-//                "classpath:configs/config-notification-mail.properties",
-//                "classpath:configs/config-notification-mail-smtp.properties",
-//                "classpath:configs/config-hook.properties",
-//                "classpath:configs/config-notification-kakao.properties",
-//                "classpath:configs/config-notification-kakao-directsend.properties",
                 "classpath:properties/application.properties",
                 "classpath:properties/application-${spring.profiles.active}.properties",
                 "classpath:properties/datasource/datasource.properties",

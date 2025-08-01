@@ -7,6 +7,9 @@ public enum ErrorCode {
     BAD_REQUEST(400_00_00, "잘못된 요청."),
     INTERNAL_SERVER_ERROR(500_00_00, "서버 내부 오류."),
 
+    /**
+     * COMMON
+     */
     NOT_FOUND_ARGUMENT_EXCEPTION(400_00_01, "인자가 존재하지 않습니다."),
     ILLEGAL_ARGUMENT_EXCEPTION(400_00_02, "인자가 부적합합니다."),
     BIND_EXCEPTION(400_00_03, "데이터 바인딩 실패."),

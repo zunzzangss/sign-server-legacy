@@ -1,12 +1,12 @@
-package com.bezzangss.sign.domain;
+package com.bezzangss.sign.web.internal;
 
 import com.bezzangss.sign.common.exception.CommonException;
 import com.bezzangss.sign.common.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class DomainException extends CommonException {
-    public DomainException(ErrorCode errorCode, String message) {
+public class InternalWebException extends CommonException {
+    public InternalWebException(ErrorCode errorCode, String message) {
         super(errorCode, message);
     }
 }

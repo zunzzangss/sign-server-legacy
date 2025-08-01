@@ -100,6 +100,14 @@ project(':sign') {
 
     dependencies {
         implementation project(':sign-config')
+        implementation project(':sign-common')
+        implementation project(':sign-domain')
+        implementation project(':sign-application')
+        implementation project(':sign-adapter-repository-jpa')
+        implementation project(':sign-adapter-storage-filesystem')
+        implementation project(':sign-adapter-storage-ftp')
+        implementation project(':sign-adapter-web')
+        implementation project(':sign-adapter-web-internal')
     }
 
     tasks.withType(War) {

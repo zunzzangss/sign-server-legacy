@@ -1,6 +1,6 @@
 package com.bezzangss.sign.common.inputstream;
 
-import com.bezzangss.sign.common.CommonException;
+import com.bezzangss.sign.common.exception.CommonException;
 import com.bezzangss.sign.common.inputstream.interfaces.InputStreamConsumer;
 import com.bezzangss.sign.common.inputstream.interfaces.InputStreamSupplier;
 

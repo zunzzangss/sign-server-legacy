@@ -8,6 +8,8 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:4.0.3'
     implementation 'com.querydsl:querydsl-jpa:4.2.2'
     annotationProcessor 'com.querydsl:querydsl-apt:4.2.2'
+
+    runtimeOnly 'com.h2database:h2:2.1.214'
 }
 
 // querydsl 추가 시작
