@@ -9,6 +9,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ResourceInternalWebRestDoc {
@@ -26,6 +28,9 @@ public class ResourceInternalWebRestDoc {
                                 .headers(httpHeaders)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isOk());
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty())
+                ;
     }
 }

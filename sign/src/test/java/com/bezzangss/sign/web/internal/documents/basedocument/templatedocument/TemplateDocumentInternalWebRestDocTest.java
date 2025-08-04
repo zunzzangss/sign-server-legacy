@@ -21,6 +21,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,6 +35,8 @@ public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                 .getResponse()
                 .getContentAsString();
         String resourceId = objectMapper.readTree(resourceCreateResponseAsString).path("contents").path("id").asText();
+        String name = UUID.randomUUID().toString();
+        String description = UUID.randomUUID().toString();
 
         mockMvc.perform(
                         post("/internal/v1/template-document/create")
@@ -42,8 +46,8 @@ public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                 .content(
                                         objectMapper.writeValueAsString(
                                                 TemplateDocumentInternalWebCreateRequest.builder()
-                                                        .name(UUID.randomUUID().toString())
-                                                        .description(UUID.randomUUID().toString())
+                                                        .name(name)
+                                                        .description(description)
                                                         .resource(
                                                                 ResourceInternalWebCreateByIdRequest.builder()
                                                                         .id(resourceId)
@@ -53,7 +57,14 @@ public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                         )
                                 )
                 )
+                .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.name").value(name))
+                .andExpect(jsonPath("$.contents.description").value(description))
+                .andExpect(jsonPath("$.contents.status").value("NONE"))
+                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
                 .andDo(
                         document("documents/basedocument/templatedocument/create",
                                 preprocessRequest(prettyPrint()),
