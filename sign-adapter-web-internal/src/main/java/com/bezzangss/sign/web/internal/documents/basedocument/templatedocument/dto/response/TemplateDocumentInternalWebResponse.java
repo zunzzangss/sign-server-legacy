@@ -9,9 +9,9 @@ import java.time.Instant;
 @Getter
 public class TemplateDocumentInternalWebResponse {
     private final String id;
-    private final String type;
-    private final String source;
-    private final long size;
+    private final String name;
+    private final String description;
+    private final String status;
     private final Instant createdAt;
     private final Instant lastModifiedAt;
 }

@@ -1,0 +1,31 @@
+일정한 방식으로 문서를 생성할 수 있는 서식 문서입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-documents-basedocument-templatedocument-create]]
+== *생성*
+
+*Request*
+
+* Method : POST
+* Path : ``/internal/v1/template-document/create``
+* Content-Type : ``application/json``
+* Header
+* Body
+
+[cols="2,1,6"]
+include::{snippets}/documents/basedocument/templatedocument/create/request-fields.adoc[]
+
+include::{snippets}/documents/basedocument/templatedocument/create/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/basedocument/templatedocument/create/response-fields.adoc[]
+
+include::{snippets}/documents/basedocument/templatedocument/create/http-response.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/basedocument/templatedocument/create/response-fields-contents.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

@@ -22,4 +22,14 @@ public class InternalWebRestDocConstant {
         public static final String CREATED_AT = Common.CREATED_AT;
         public static final String LAST_MODIFIED_AT = Common.LAST_MODIFIED_AT;
     }
+
+    public static class TemplateDocument {
+        public static final String TEMPLATE_DOCUMENT = "서식 문서 (Template Document)";
+        public static final String ID = "서식 문서 (Template Document) 아이디";
+        public static final String NAME = "서식 문서 (Template Document) 명";
+        public static final String DESCRIPTION = "설명";
+        public static final String STATUS = "진행 상태 +\nNONE : 진행 상태 없음 +\nDELETED : 삭제";
+        public static final String CREATED_AT = Common.CREATED_AT;
+        public static final String LAST_MODIFIED_AT = Common.LAST_MODIFIED_AT;
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TemplateDocumentInternalWebAdapter {
     private final TemplateDocumentInternalWebHandler templateDocumentInternalWebHandler;
 
-    @PostMapping(value = "/internal/v1/template-document/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/internal/v1/template-document/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public WebResponse<TemplateDocumentInternalWebResponse> create(
             @RequestBody TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest
     ) {

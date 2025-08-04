@@ -49,7 +49,7 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
 
         switch (domain) {
             case TEMPLATE_DOCUMENT:
-                if (!templateDocumentQueryApplicationPort.findById(resourceId).isPresent()) throw new ApplicationException(TEMPLATE_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
+                if (!templateDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(TEMPLATE_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
                 break;
             default:
                 throw new ApplicationException(RESOURCE_REFERENCE_ILLEGAL_TYPE_EXCEPTION, domain.name());
