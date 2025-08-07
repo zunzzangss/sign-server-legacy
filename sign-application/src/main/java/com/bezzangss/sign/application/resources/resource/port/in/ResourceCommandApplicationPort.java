@@ -4,4 +4,6 @@ import com.bezzangss.sign.application.resources.resource.port.in.dto.request.Res
 
 public interface ResourceCommandApplicationPort {
     String create(ResourceApplicationCreateRequest resourceApplicationCreateRequest);
+
+    String replicate(String id);
 }

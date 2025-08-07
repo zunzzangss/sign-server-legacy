@@ -1,7 +1,7 @@
 package com.bezzangss.sign.web.internal.documents.basedocument.templatedocument;
 
-import com.bezzangss.sign.application.documents._basedocument._templatedocument.port.in.TemplateDocumentCommandApplicationPort;
-import com.bezzangss.sign.application.documents._basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
+import com.bezzangss.sign.application.documents.basedocument._templatedocument.port.in.TemplateDocumentCommandApplicationPort;
+import com.bezzangss.sign.application.documents.basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
 import com.bezzangss.sign.web.dto.response.WebResponse;
 import com.bezzangss.sign.web.internal.InternalWebException;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;

@@ -1,7 +1,7 @@
 package com.bezzangss.sign.application.resources.resourcereference.application;
 
 import com.bezzangss.sign.application.ApplicationException;
-import com.bezzangss.sign.application.documents._basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
+import com.bezzangss.sign.application.documents.basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resource.port.in.ResourceQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resourcereference.application.mapper.ResourceReferenceApplicationMapper;
 import com.bezzangss.sign.application.resources.resourcereference.port.in.ResourceReferenceCommandApplicationPort;

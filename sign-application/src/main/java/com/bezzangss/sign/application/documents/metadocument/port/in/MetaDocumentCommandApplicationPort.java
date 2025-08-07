@@ -1,0 +1,10 @@
+package com.bezzangss.sign.application.documents.metadocument.port.in;
+
+import com.bezzangss.sign.application.documents.metadocument.port.in.dto.request.MetaDocumentApplicationCreateDocumentRequest;
+import com.bezzangss.sign.application.documents.metadocument.port.in.dto.request.MetaDocumentApplicationReplicateResourceByBaseDocumentRequest;
+
+public interface MetaDocumentCommandApplicationPort {
+    String replicateResourceByBaseDocument(MetaDocumentApplicationReplicateResourceByBaseDocumentRequest metaDocumentApplicationReplicateResourceByBaseDocumentRequest);
+
+    String createDocument(MetaDocumentApplicationCreateDocumentRequest metaDocumentApplicationCreateDocumentRequest);
+}

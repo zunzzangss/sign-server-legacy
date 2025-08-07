@@ -1,7 +1,6 @@
 package com.bezzangss.sign.repository.jpa.resources.resource.entity;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +24,6 @@ public class ResourceJpaEntity {
     @Column(name = "SOURCE", nullable = false, length = 1000)
     private String source;
 
-    @ColumnDefault("0")
     @Column(name = "C_SIZE", nullable = false)
     private long size;
 
