@@ -32,10 +32,15 @@ include::internal/resources/resource/resource.adoc[leveloffset=+4]
 [[link-reference-documents]]
 ==== *문서 (Documents)*
 
-[[link-reference-template-document]]
+[[link-reference-documents-basedocument-templatedocument]]
 ===== *서식 문서 (Template Document)*
 
 include::internal/documents/basedocument/templatedocument/template-document.adoc[leveloffset=+4]
+
+[[link-reference-documents-metadocument-standarddocument]]
+===== *일반 문서 (Standard Document)*
+
+include::internal/documents/metadocument/standarddocument/standard-document.adoc[leveloffset=+4]
 
 [[link-error]]
 === *에러코드*

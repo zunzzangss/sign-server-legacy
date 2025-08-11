@@ -40,10 +40,13 @@ public class DocumentJpaEntity {
     private Instant lastModifiedAt;
 
     @Builder
-    public DocumentJpaEntity(String id, String name, String description, Instant createdAt, Instant lastModifiedAt) {
+    public DocumentJpaEntity(String id, String name, String description, String status, String metaDocumentType, String metaDocumentId, Instant createdAt, Instant lastModifiedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.status = status;
+        this.metaDocumentType = metaDocumentType;
+        this.metaDocumentId = metaDocumentId;
         this.createdAt = createdAt;
         this.lastModifiedAt = lastModifiedAt;
     }

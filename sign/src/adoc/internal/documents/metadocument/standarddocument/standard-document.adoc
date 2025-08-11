@@ -1,0 +1,31 @@
+일반 문서입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-documents-metadocument-standarddocument-create]]
+== *생성*
+
+*Request*
+
+* Method : POST
+* Path : ``/internal/v1/standard-document/create``
+* Content-Type : ``application/json``
+* Header
+* Body
+
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/standarddocument/create/request-fields.adoc[]
+
+include::{snippets}/documents/metadocument/standarddocument/create/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/standarddocument/create/response-fields.adoc[]
+
+include::{snippets}/documents/metadocument/standarddocument/create/http-response.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/standarddocument/create/response-fields-contents.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

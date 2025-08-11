@@ -2,6 +2,7 @@ package com.bezzangss.sign.application.resources.resourcereference.application;
 
 import com.bezzangss.sign.application.ApplicationException;
 import com.bezzangss.sign.application.documents.basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
+import com.bezzangss.sign.application.documents.metadocument._standarddocument.port.in.StandardDocumentQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resource.port.in.ResourceQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resourcereference.application.mapper.ResourceReferenceApplicationMapper;
 import com.bezzangss.sign.application.resources.resourcereference.port.in.ResourceReferenceCommandApplicationPort;
@@ -28,6 +29,8 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
 
     private final TemplateDocumentQueryApplicationPort templateDocumentQueryApplicationPort;
 
+    private final StandardDocumentQueryApplicationPort standardDocumentQueryApplicationPort;
+
     @Override
     public String create(ResourceReferenceApplicationCreateRequest resourceReferenceApplicationCreateRequest) {
         ResourceReference resourceReference = ResourceReference.create(
@@ -50,6 +53,9 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
         switch (domain) {
             case TEMPLATE_DOCUMENT:
                 if (!templateDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(TEMPLATE_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
+                break;
+            case STANDARD_DOCUMENT:
+                if (!standardDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
                 break;
             default:
                 throw new ApplicationException(RESOURCE_REFERENCE_ILLEGAL_TYPE_EXCEPTION, domain.name());
