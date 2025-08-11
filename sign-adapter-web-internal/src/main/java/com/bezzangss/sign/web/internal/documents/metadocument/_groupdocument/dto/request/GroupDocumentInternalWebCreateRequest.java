@@ -1,4 +1,4 @@
-package com.bezzangss.sign.web.internal.documents.metadocument.groupdocument.dto.request;
+package com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.request;
 
 import lombok.*;
 

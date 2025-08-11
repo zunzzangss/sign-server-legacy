@@ -1,4 +1,4 @@
-package com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.dto.response;
+package com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

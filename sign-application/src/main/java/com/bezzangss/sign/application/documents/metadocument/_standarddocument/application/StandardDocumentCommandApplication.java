@@ -7,6 +7,7 @@ import com.bezzangss.sign.application.documents.metadocument._standarddocument.p
 import com.bezzangss.sign.application.documents.metadocument.port.in.MetaDocumentCommandApplicationPort;
 import com.bezzangss.sign.application.documents.metadocument.port.in.dto.request.MetaDocumentApplicationCreateDocumentRequest;
 import com.bezzangss.sign.application.documents.metadocument.port.in.dto.request.MetaDocumentApplicationReplicateResourceByBaseDocumentRequest;
+import com.bezzangss.sign.domain.documents.metadocument.MetaDocumentType;
 import com.bezzangss.sign.domain.documents.metadocument.standarddocument.aggregate.StandardDocument;
 import com.bezzangss.sign.domain.documents.metadocument.standarddocument.dto.StandardDocumentDomainCreateRequest;
 import lombok.RequiredArgsConstructor;
@@ -32,19 +33,19 @@ public class StandardDocumentCommandApplication implements StandardDocumentComma
         );
         String id = standardDocumentRepositoryPort.create(standardDocumentApplicationMapper.toRepositoryCreateRequest(standardDocument));
 
-        metaDocumentCommandApplicationPort.replicateResourceByBaseDocument(
-                MetaDocumentApplicationReplicateResourceByBaseDocumentRequest.builder()
-                        .metaDocumentId(id)
-                        .metaDocumentType("STANDARD_DOCUMENT")
-                        .baseDocument(standardDocumentApplicationCreateRequest.getBaseDocument())
-                        .build()
-        );
-
         metaDocumentCommandApplicationPort.createDocument(
                 MetaDocumentApplicationCreateDocumentRequest.builder()
                         .metaDocumentId(id)
-                        .metaDocumentType("STANDARD_DOCUMENT")
+                        .metaDocumentType(MetaDocumentType.STANDARD_DOCUMENT.name())
                         .document(standardDocumentApplicationCreateRequest.getDocument())
+                        .build()
+        );
+
+        metaDocumentCommandApplicationPort.replicateResourceByBaseDocument(
+                MetaDocumentApplicationReplicateResourceByBaseDocumentRequest.builder()
+                        .metaDocumentId(id)
+                        .metaDocumentType(MetaDocumentType.STANDARD_DOCUMENT.name())
+                        .baseDocument(standardDocumentApplicationCreateRequest.getBaseDocument())
                         .build()
         );
 

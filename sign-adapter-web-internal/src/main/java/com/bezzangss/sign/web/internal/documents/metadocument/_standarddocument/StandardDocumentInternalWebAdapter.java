@@ -1,8 +1,8 @@
-package com.bezzangss.sign.web.internal.documents.metadocument.standarddocument;
+package com.bezzangss.sign.web.internal.documents.metadocument._standarddocument;
 
 import com.bezzangss.sign.web.dto.response.WebResponse;
-import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
-import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.dto.response.StandardDocumentInternalWebResponse;
+import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

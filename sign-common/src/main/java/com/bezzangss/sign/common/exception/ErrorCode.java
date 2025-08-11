@@ -68,6 +68,12 @@ public enum ErrorCode {
     DOCUMENT_NOT_FOUND_EXCEPTION(404_30_00, "정보가 존재하지 않습니다."),
     DOCUMENT_EXISTS_EXCEPTION(409_30_00, "정보가 이미 존재합니다."),
 
+    /**
+     * STANDARD_DOCUMENT
+     */
+    STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION(404_31_00, "정보가 존재하지 않습니다."),
+    STANDARD_DOCUMENT_EXISTS_EXCEPTION(409_31_00, "정보가 이미 존재합니다."),
+
     ;
 
     private final int code;
