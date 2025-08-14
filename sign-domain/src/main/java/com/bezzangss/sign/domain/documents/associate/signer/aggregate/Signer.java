@@ -6,14 +6,16 @@ import com.bezzangss.sign.domain.documents.associate.AssociateType;
 import com.bezzangss.sign.domain.documents.associate.signer.SignerStatus;
 import com.bezzangss.sign.domain.documents.associate.signer.dto.SignerDomainCreateRequest;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 
 import java.time.Instant;
 import java.util.UUID;
 
-import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_EXCEPTION;
+import static com.bezzangss.sign.common.exception.ErrorCode.*;
 
+@EqualsAndHashCode(of = "id")
 @Getter
 public class Signer implements Associate {
     private String id;
@@ -52,6 +54,62 @@ public class Signer implements Associate {
                 .createdAt(ObjectUtils.isEmpty(signerDomainCreateRequest.getCreatedAt()) ? Instant.now() : signerDomainCreateRequest.getCreatedAt())
                 .lastModifiedAt(signerDomainCreateRequest.getLastModifiedAt())
                 .build();
+    }
+
+    public boolean isNone() {
+        return this.status == SignerStatus.NONE;
+    }
+
+    public boolean isWaiting() {
+        return this.status == SignerStatus.WAITING;
+    }
+
+    public boolean isReady() {
+        return this.status == SignerStatus.READY;
+    }
+
+    public boolean isSigned() {
+        return this.status == SignerStatus.SIGNED;
+    }
+
+    public void none() {
+        if (this.isNone()) throw new DomainException(SIGNER_STATUS_IS_NONE_EXCEPTION, this.id);
+//        if (this.isWaiting()) throw new DomainException(SIGNER_STATUS_IS_WAITING_EXCEPTION, this.id);
+//        if (this.isReady()) throw new DomainException(SIGNER_STATUS_IS_READY_EXCEPTION, this.id);
+        if (this.isSigned()) throw new DomainException(SIGNER_STATUS_IS_SIGNED_EXCEPTION, this.id);
+
+        this.status = SignerStatus.NONE;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void waits() {
+//        if (this.isNone()) throw new DomainException(SIGNER_STATUS_IS_NONE_EXCEPTION, this.id);
+        if (this.isWaiting()) throw new DomainException(SIGNER_STATUS_IS_WAITING_EXCEPTION, this.id);
+        if (this.isReady()) throw new DomainException(SIGNER_STATUS_IS_READY_EXCEPTION, this.id);
+        if (this.isSigned()) throw new DomainException(SIGNER_STATUS_IS_SIGNED_EXCEPTION, this.id);
+
+        this.status = SignerStatus.WAITING;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void ready() {
+        if (this.isNone()) throw new DomainException(SIGNER_STATUS_IS_NONE_EXCEPTION, this.id);
+//        if (this.isWaiting()) throw new DomainException(SIGNER_STATUS_IS_WAITING_EXCEPTION, this.id);
+        if (this.isReady()) throw new DomainException(SIGNER_STATUS_IS_READY_EXCEPTION, this.id);
+        if (this.isSigned()) throw new DomainException(SIGNER_STATUS_IS_SIGNED_EXCEPTION, this.id);
+
+        this.status = SignerStatus.READY;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void sign() {
+        if (this.isNone()) throw new DomainException(SIGNER_STATUS_IS_NONE_EXCEPTION, this.id);
+        if (this.isWaiting()) throw new DomainException(SIGNER_STATUS_IS_WAITING_EXCEPTION, this.id);
+//        if (this.isReady()) throw new DomainException(SIGNER_STATUS_IS_READY_EXCEPTION, this.id);
+        if (this.isSigned()) throw new DomainException(SIGNER_STATUS_IS_SIGNED_EXCEPTION, this.id);
+
+        this.status = SignerStatus.SIGNED;
+        this.lastModifiedAt = Instant.now();
     }
 
     private void validate() {
