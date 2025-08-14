@@ -1,6 +1,8 @@
 package com.bezzangss.sign.application.documents.associate.signer.application;
 
 import com.bezzangss.sign.application.ApplicationException;
+import com.bezzangss.sign.application.documents.associate.signer.application.bridge.SignerCommandApplicationBridge;
+import com.bezzangss.sign.application.documents.associate.signer.application.event.SignerApplicationEvent;
 import com.bezzangss.sign.application.documents.associate.signer.application.mapper.SignerApplicationMapper;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationCommandPort;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.request.SignerApplicationCreateRequest;
@@ -25,7 +27,7 @@ import static com.bezzangss.sign.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class SignerCommandApplication implements SignerApplicationCommandPort {
+public class SignerCommandApplication implements SignerApplicationCommandPort, SignerCommandApplicationBridge, SignerApplicationEvent {
     private final SignerApplicationMapper signerApplicationMapper;
     private final SignerDomainService signerDomainService;
     private final SignerRepositoryPort signerRepositoryPort;
@@ -82,6 +84,7 @@ public class SignerCommandApplication implements SignerApplicationCommandPort {
     }
 
     @EventListener
+    @Override
     public void eventListener(SignerDomainEvent signerDomainEvent) {
         switch (signerDomainEvent.getStatus()) {
             case WAITING:

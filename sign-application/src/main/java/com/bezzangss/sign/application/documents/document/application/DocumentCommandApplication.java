@@ -6,6 +6,8 @@ import com.bezzangss.sign.application.documents.associate.publisher.port.in.Publ
 import com.bezzangss.sign.application.documents.associate.signer.application.bridge.SignerQueryApplicationBridge;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationCommandPort;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationQueryPort;
+import com.bezzangss.sign.application.documents.document.application.bridge.DocumentCommandApplicationBridge;
+import com.bezzangss.sign.application.documents.document.application.event.DocumentApplicationEvent;
 import com.bezzangss.sign.application.documents.document.application.mapper.DocumentApplicationMapper;
 import com.bezzangss.sign.application.documents.document.port.in.DocumentCommandApplicationPort;
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.DocumentApplicationCreateRequest;
@@ -34,7 +36,7 @@ import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_E
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class DocumentCommandApplication implements DocumentCommandApplicationPort {
+public class DocumentCommandApplication implements DocumentCommandApplicationPort, DocumentCommandApplicationBridge, DocumentApplicationEvent {
     private final DocumentApplicationMapper documentApplicationMapper;
     private final DocumentDomainService documentDomainService;
     private final DocumentRepositoryPort documentRepositoryPort;
@@ -88,6 +90,7 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
     }
 
     @EventListener
+    @Override
     public void eventListener(DocumentDomainEvent documentDomainEvent) {
         switch (documentDomainEvent.getStatus()) {
             case COMPLETED:
