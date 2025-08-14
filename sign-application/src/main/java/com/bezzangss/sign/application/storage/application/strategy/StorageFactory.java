@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.bezzangss.sign.common.exception.ErrorCode.STORAGE_ILLEGAL_TYPE_EXCEPTION;
+import static com.bezzangss.sign.common.exception.ErrorCode.STORAGE_ILLEGAL_TYPE_INTERNAL_SERVER_ERROR;
 
 @Component
 public class StorageFactory {
@@ -23,7 +23,8 @@ public class StorageFactory {
     }
 
     public StoragePort create(StorageType type) {
-        return Optional.ofNullable(storagePortMap.get(type)).orElseThrow(() -> new ApplicationException(STORAGE_ILLEGAL_TYPE_EXCEPTION, type.name()));
+        return Optional.ofNullable(storagePortMap.get(type))
+                .orElseThrow(() -> new ApplicationException(STORAGE_ILLEGAL_TYPE_INTERNAL_SERVER_ERROR, type.name()));
     }
 
     public StoragePort create(String type) {

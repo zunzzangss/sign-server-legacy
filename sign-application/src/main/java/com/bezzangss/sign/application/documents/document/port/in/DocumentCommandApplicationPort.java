@@ -4,4 +4,6 @@ import com.bezzangss.sign.application.documents.document.port.in.dto.request.Doc
 
 public interface DocumentCommandApplicationPort {
     String create(DocumentApplicationCreateRequest documentApplicationCreateRequest);
+
+    void process(String id);
 }

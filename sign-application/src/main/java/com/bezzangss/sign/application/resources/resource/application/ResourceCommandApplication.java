@@ -45,17 +45,18 @@ public class ResourceCommandApplication implements ResourceCommandApplicationPor
     public String replicate(String id) {
         if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
 
-        Resource original = resourceRepositoryPort.findById(id).map(resourceApplicationMapper::toDomain).orElseThrow(() -> new ApplicationException(RESOURCE_NOT_FOUND_EXCEPTION, id));
+        Resource original = resourceRepositoryPort.findById(id)
+                .map(resourceApplicationMapper::toDomain)
+                .orElseThrow(() -> new ApplicationException(RESOURCE_NOT_FOUND_EXCEPTION, id));
 
-        ResourceType type = original.getType();
         InputStreamHandler inputStreamHandler = storageQueryApplicationBridge.read(
                 StorageApplicationReadRequest.builder()
-                        .typeProvider(type)
+                        .typeProvider(original.getType())
                         .source(original.getSource())
                         .build()
         );
 
-        return this.create(type, inputStreamHandler);
+        return this.create(original.getType(), inputStreamHandler);
     }
 
     private String create(ResourceType type, InputStreamHandler inputStreamHandler) {

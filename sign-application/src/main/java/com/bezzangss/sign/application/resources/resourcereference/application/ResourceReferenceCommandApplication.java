@@ -58,7 +58,7 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
                 if (!standardDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
                 break;
             default:
-                throw new ApplicationException(RESOURCE_REFERENCE_ILLEGAL_TYPE_EXCEPTION, domain.name());
+                throw new ApplicationException(RESOURCE_REFERENCE_ILLEGAL_TYPE_INTERNAL_SERVER_ERROR, domain.name());
         }
 
         if (!resourceQueryApplicationPort.findById(resourceId).isPresent()) throw new ApplicationException(RESOURCE_NOT_FOUND_EXCEPTION, resourceId);

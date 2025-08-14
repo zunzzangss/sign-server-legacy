@@ -18,7 +18,7 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.bezzangss.sign.common.exception.ErrorCode.RESOURCE_WRITE_EXCEPTION;
+import static com.bezzangss.sign.common.exception.ErrorCode.RESOURCE_WRITE_INTERNAL_SERVER_ERROR;
 
 @RequiredArgsConstructor
 @Component
@@ -40,7 +40,7 @@ public class FileSystemAdapter implements StoragePort {
         try {
             return this.throwingWrite(inputStreamHandler);
         } catch (IOException e) {
-            throw new FileSystemException(RESOURCE_WRITE_EXCEPTION, e.getMessage());
+            throw new FileSystemException(RESOURCE_WRITE_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

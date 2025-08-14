@@ -8,6 +8,7 @@ import com.bezzangss.sign.application.documents.document.port.in.dto.request.com
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.common.SignerInDocumentApplicationCreateRequest;
 import com.bezzangss.sign.application.documents.document.port.in.dto.response.DocumentApplicationResponse;
 import com.bezzangss.sign.application.documents.document.port.out.dto.request.DocumentRepositoryCreateRequest;
+import com.bezzangss.sign.application.documents.document.port.out.dto.request.DocumentRepositoryUpdateRequest;
 import com.bezzangss.sign.application.documents.document.port.out.dto.response.DocumentRepositoryResponse;
 import com.bezzangss.sign.common.mapstruct.CommonMapper;
 import com.bezzangss.sign.common.mapstruct.CommonMapperConfigurer;
@@ -16,7 +17,11 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = CommonMapperConfigurer.class)
 public interface DocumentApplicationMapper extends CommonMapper {
+    Document toDomain(DocumentRepositoryResponse documentRepositoryResponse);
+
     DocumentRepositoryCreateRequest toRepositoryCreateRequest(Document document);
+
+    DocumentRepositoryUpdateRequest toRepositoryUpdateRequest(Document document);
 
     DocumentApplicationResponse toApplicationResponse(DocumentRepositoryResponse documentRepositoryResponse);
 
