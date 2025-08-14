@@ -41,6 +41,18 @@ public class SignerDomainCommonService {
         }
     }
 
+    public void validateAllMatchSigned(List<Signer> signers) {
+        if (!signers.stream().allMatch(Signer::isSigned)) {
+            throw new DomainException(
+                    SIGNER_STATUS_IS_NOT_SIGNED_EXCEPTION,
+                    signers.stream()
+                            .filter(signer -> !signer.isSigned())
+                            .map(Signer::getId)
+                            .collect(Collectors.joining(" "))
+            );
+        }
+    }
+
     public void validateOrderByReady(Signer signer, List<Signer> signers) {
         this.findAnyOrderByReady(signers)
                 .filter(orderByReady -> orderByReady == signer.getOrder())

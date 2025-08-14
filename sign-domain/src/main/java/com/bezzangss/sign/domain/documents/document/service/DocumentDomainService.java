@@ -23,8 +23,18 @@ public class DocumentDomainService {
         this.publishEventForProcess(signers);
     }
 
+    public void complete(List<Signer> signers, Document document) {
+        this.validateForComplete(signers, document);
+        document.complete();
+    }
+
     private void validateForProcess(List<Signer> signers, Document document) {
         signerDomainCommonService.validateAllMatchNone(signers);
+        signerDomainCommonService.validateContains(signers, document);
+    }
+
+    private void validateForComplete(List<Signer> signers, Document document) {
+        signerDomainCommonService.validateAllMatchSigned(signers);
         signerDomainCommonService.validateContains(signers, document);
     }
 

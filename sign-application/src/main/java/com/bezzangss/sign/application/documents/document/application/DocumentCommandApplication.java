@@ -77,9 +77,25 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
         this.update(document);
     }
 
+    private void complete(String id) {
+        if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
+
+        Document document = this.findDocumentById(id);
+        List<Signer> signers = signerQueryApplicationBridge.findAllDomainByDocumentId(id);
+
+        documentDomainService.complete(signers, document);
+        this.update(document);
+    }
+
     @EventListener
     public void eventListener(DocumentDomainEvent documentDomainEvent) {
-
+        switch (documentDomainEvent.getStatus()) {
+            case COMPLETED:
+                this.complete(documentDomainEvent.getId());
+                break;
+            default:
+                break;
+        }
     }
 
     private void createPublisher(PublisherInDocumentApplicationCreateRequest publisher, String id) {
