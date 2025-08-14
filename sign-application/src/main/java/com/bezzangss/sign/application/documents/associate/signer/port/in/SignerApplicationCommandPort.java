@@ -4,4 +4,6 @@ import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.req
 
 public interface SignerApplicationCommandPort {
     String create(SignerApplicationCreateRequest signerApplicationCreateRequest);
+
+    void sign(String id);
 }

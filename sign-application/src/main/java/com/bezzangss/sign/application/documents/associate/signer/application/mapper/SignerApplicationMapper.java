@@ -2,6 +2,7 @@ package com.bezzangss.sign.application.documents.associate.signer.application.ma
 
 import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.response.SignerApplicationResponse;
 import com.bezzangss.sign.application.documents.associate.signer.port.out.dto.request.SignerRepositoryCreateRequest;
+import com.bezzangss.sign.application.documents.associate.signer.port.out.dto.request.SignerRepositoryUpdateRequest;
 import com.bezzangss.sign.application.documents.associate.signer.port.out.dto.response.SignerRepositoryResponse;
 import com.bezzangss.sign.common.mapstruct.CommonMapper;
 import com.bezzangss.sign.common.mapstruct.CommonMapperConfigurer;
@@ -10,7 +11,11 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = CommonMapperConfigurer.class)
 public interface SignerApplicationMapper extends CommonMapper {
+    Signer toDomain(SignerRepositoryResponse signerRepositoryResponse);
+
     SignerRepositoryCreateRequest toRepositoryCreateRequest(Signer signer);
+
+    SignerRepositoryUpdateRequest toRepositoryUpdateRequest(Signer signer);
 
     SignerApplicationResponse toApplicationResponse(SignerRepositoryResponse signerRepositoryResponse);
 }

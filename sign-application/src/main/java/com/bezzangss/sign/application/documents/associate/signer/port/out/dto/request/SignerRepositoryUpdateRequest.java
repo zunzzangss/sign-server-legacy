@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Builder
 @Getter
-public class SignerRepositoryCreateRequest {
+public class SignerRepositoryUpdateRequest {
     private final String id;
     private final String name;
     private final String email;
