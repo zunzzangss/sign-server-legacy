@@ -1,7 +1,7 @@
 package com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.request;
 
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentWebInternalCreateRequest;
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentWebInternalCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentInternalWebCreateRequest;
 import lombok.*;
 
 import java.util.List;
@@ -15,6 +15,6 @@ public class GroupDocumentInternalWebCreateRequest {
     private String name;
     private String description;
 
-    private BaseDocumentInMetaDocumentWebInternalCreateRequest baseDocument;
-    private List<DocumentInMetaDocumentWebInternalCreateRequest> documents;
+    private BaseDocumentInMetaDocumentInternalWebCreateRequest baseDocument;
+    private List<DocumentInMetaDocumentInternalWebCreateRequest> documents;
 }

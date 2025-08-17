@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-public class BaseDocumentInMetaDocumentWebInternalCreateRequest {
+public class BaseDocumentInMetaDocumentInternalWebCreateRequest {
     private String id;
     private String type;
 }

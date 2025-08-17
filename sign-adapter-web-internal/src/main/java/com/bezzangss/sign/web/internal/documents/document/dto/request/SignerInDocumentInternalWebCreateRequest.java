@@ -7,8 +7,9 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-public class CcInDocumentWebInternalCreateRequest {
+public class SignerInDocumentInternalWebCreateRequest {
     private String name;
     private String email;
     private String cellPhone;
+    private int order;
 }

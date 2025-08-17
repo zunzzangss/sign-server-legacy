@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-public class PublisherInDocumentWebInternalCreateRequest {
+public class PublisherInDocumentInternalWebCreateRequest {
     private String name;
     private String email;
     private String cellPhone;

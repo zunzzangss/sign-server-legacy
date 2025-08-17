@@ -4,12 +4,12 @@ import com.bezzangss.sign.web.internal.InternalWebRestDocConstant.*;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
-import com.bezzangss.sign.web.internal.documents.document.dto.request.CcInDocumentWebInternalCreateRequest;
-import com.bezzangss.sign.web.internal.documents.document.dto.request.PublisherInDocumentWebInternalCreateRequest;
-import com.bezzangss.sign.web.internal.documents.document.dto.request.SignerInDocumentWebInternalCreateRequest;
+import com.bezzangss.sign.web.internal.documents.document.dto.request.CcInDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.document.dto.request.PublisherInDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.document.dto.request.SignerInDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentWebInternalCreateRequest;
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentWebInternalCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentInternalWebCreateRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.MediaType;
@@ -54,17 +54,17 @@ public class StandardDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                                         .name(name)
                                                         .description(description)
                                                         .baseDocument(
-                                                                BaseDocumentInMetaDocumentWebInternalCreateRequest.builder()
+                                                                BaseDocumentInMetaDocumentInternalWebCreateRequest.builder()
                                                                         .id(templateDocumentId)
                                                                         .type("TEMPLATE_DOCUMENT")
                                                                         .build()
                                                         )
                                                         .document(
-                                                                DocumentInMetaDocumentWebInternalCreateRequest.builder()
+                                                                DocumentInMetaDocumentInternalWebCreateRequest.builder()
                                                                         .name(name)
                                                                         .description(description)
                                                                         .publisher(
-                                                                                PublisherInDocumentWebInternalCreateRequest.builder()
+                                                                                PublisherInDocumentInternalWebCreateRequest.builder()
                                                                                         .name("publisher")
                                                                                         .email("publisher@bezzangss.com")
                                                                                         .cellPhone("01000000000")
@@ -72,13 +72,13 @@ public class StandardDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                                                         )
                                                                         .signers(
                                                                                 Arrays.asList(
-                                                                                        SignerInDocumentWebInternalCreateRequest.builder()
+                                                                                        SignerInDocumentInternalWebCreateRequest.builder()
                                                                                                 .name("signer1")
                                                                                                 .email("signer1@bezzangss.com")
                                                                                                 .cellPhone("01011111111")
                                                                                                 .order(0)
                                                                                                 .build()
-                                                                                        , SignerInDocumentWebInternalCreateRequest.builder()
+                                                                                        , SignerInDocumentInternalWebCreateRequest.builder()
                                                                                                 .name("signer2")
                                                                                                 .email("signer2@bezzangss.com")
                                                                                                 .cellPhone("01022222222")
@@ -88,12 +88,12 @@ public class StandardDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                                                         )
                                                                         .ccs(
                                                                                 Arrays.asList(
-                                                                                        CcInDocumentWebInternalCreateRequest.builder()
+                                                                                        CcInDocumentInternalWebCreateRequest.builder()
                                                                                                 .name("cc1")
                                                                                                 .email("cc1@bezzangss.com")
                                                                                                 .cellPhone("01033333333")
                                                                                                 .build()
-                                                                                        , CcInDocumentWebInternalCreateRequest.builder()
+                                                                                        , CcInDocumentInternalWebCreateRequest.builder()
                                                                                                 .name("cc2")
                                                                                                 .email("cc2@bezzangss.com")
                                                                                                 .cellPhone("01044444444")

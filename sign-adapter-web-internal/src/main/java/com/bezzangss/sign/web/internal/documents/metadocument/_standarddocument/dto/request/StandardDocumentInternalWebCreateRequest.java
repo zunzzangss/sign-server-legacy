@@ -1,7 +1,7 @@
 package com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request;
 
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentWebInternalCreateRequest;
-import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentWebInternalCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.BaseDocumentInMetaDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument.dto.request.DocumentInMetaDocumentInternalWebCreateRequest;
 import lombok.*;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,6 +13,6 @@ public class StandardDocumentInternalWebCreateRequest {
     private String name;
     private String description;
 
-    private BaseDocumentInMetaDocumentWebInternalCreateRequest baseDocument;
-    private DocumentInMetaDocumentWebInternalCreateRequest document;
+    private BaseDocumentInMetaDocumentInternalWebCreateRequest baseDocument;
+    private DocumentInMetaDocumentInternalWebCreateRequest document;
 }
