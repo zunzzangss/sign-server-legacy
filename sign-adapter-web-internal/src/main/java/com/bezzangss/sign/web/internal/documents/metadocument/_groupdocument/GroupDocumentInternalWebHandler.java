@@ -23,6 +23,7 @@ public class GroupDocumentInternalWebHandler {
     @Transactional
     public WebResponse<GroupDocumentInternalWebResponse> create(GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest) {
         String id = groupDocumentCommandApplicationPort.create(groupDocumentInternalWebMapper.toApplicationCreateRequest(groupDocumentInternalWebCreateRequest));
+        groupDocumentCommandApplicationPort.process(id);
 
         GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = groupDocumentQueryApplicationPort.findById(id)
                 .map(groupDocumentInternalWebMapper::toResponse)

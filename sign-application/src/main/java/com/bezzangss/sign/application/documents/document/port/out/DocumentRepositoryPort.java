@@ -4,6 +4,7 @@ import com.bezzangss.sign.application.documents.document.port.out.dto.request.Do
 import com.bezzangss.sign.application.documents.document.port.out.dto.request.DocumentRepositoryUpdateRequest;
 import com.bezzangss.sign.application.documents.document.port.out.dto.response.DocumentRepositoryResponse;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DocumentRepositoryPort {
@@ -12,4 +13,6 @@ public interface DocumentRepositoryPort {
     String update(DocumentRepositoryUpdateRequest documentRepositoryUpdateRequest);
 
     Optional<DocumentRepositoryResponse> findById(String id);
+
+    List<DocumentRepositoryResponse> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
 }

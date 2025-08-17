@@ -54,4 +54,9 @@ public class GroupDocumentCommandApplication implements GroupDocumentCommandAppl
 
         return id;
     }
+
+    @Override
+    public void process(String id) {
+        metaDocumentCommandApplicationPort.process(MetaDocumentType.GROUP_DOCUMENT.name(), id);
+    }
 }

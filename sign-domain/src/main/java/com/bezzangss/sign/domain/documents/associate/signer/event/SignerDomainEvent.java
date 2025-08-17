@@ -2,34 +2,39 @@ package com.bezzangss.sign.domain.documents.associate.signer.event;
 
 import com.bezzangss.sign.domain.DomainException;
 import com.bezzangss.sign.domain.documents.associate.signer.SignerStatus;
+import com.bezzangss.sign.domain.documents.associate.signer.aggregate.Signer;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.util.ObjectUtils;
+
+import java.util.UUID;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_EXCEPTION;
 
 @Getter
-public class SignerDomainEvent {
+public class SignerDomainEvent extends ApplicationEvent {
     private final String id;
     private final SignerStatus status;
 
     @Builder
     private SignerDomainEvent(String id, SignerStatus status) {
+        super(UUID.randomUUID().toString());
         this.id = id;
         this.status = status;
         this.validate();
     }
 
-    public static SignerDomainEvent waits(String id) {
+    public static SignerDomainEvent waits(Signer signer) {
         return SignerDomainEvent.builder()
-                .id(id)
+                .id(signer.getId())
                 .status(SignerStatus.WAITING)
                 .build();
     }
 
-    public static SignerDomainEvent ready(String id) {
+    public static SignerDomainEvent ready(Signer signer) {
         return SignerDomainEvent.builder()
-                .id(id)
+                .id(signer.getId())
                 .status(SignerStatus.READY)
                 .build();
     }

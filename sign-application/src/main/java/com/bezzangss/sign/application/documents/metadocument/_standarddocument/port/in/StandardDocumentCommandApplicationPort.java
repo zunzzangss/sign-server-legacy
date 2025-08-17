@@ -4,4 +4,6 @@ import com.bezzangss.sign.application.documents.metadocument._standarddocument.p
 
 public interface StandardDocumentCommandApplicationPort {
     String create(StandardDocumentApplicationCreateRequest standardDocumentApplicationCreateRequest);
+
+    void process(String id);
 }

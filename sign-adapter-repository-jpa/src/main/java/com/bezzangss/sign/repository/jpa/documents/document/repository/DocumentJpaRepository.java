@@ -4,9 +4,12 @@ import com.bezzangss.sign.repository.jpa.documents.document.entity.DocumentJpaEn
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface DocumentJpaRepository extends JpaRepository<DocumentJpaEntity, String>, DocumentJpaRepositoryCustom {
     Optional<DocumentJpaEntity> findById(String id);
+
+    List<DocumentJpaEntity> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
 }

@@ -14,6 +14,8 @@ import com.bezzangss.sign.domain.documents.associate.signer.event.SignerDomainEv
 import com.bezzangss.sign.domain.documents.associate.signer.service.SignerDomainService;
 import com.bezzangss.sign.domain.documents.document.aggregate.Document;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,8 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
     private final SignerRepositoryPort signerRepositoryPort;
 
     private final DocumentQueryApplicationBridge documentQueryApplicationBridge;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public String create(SignerApplicationCreateRequest signerApplicationCreateRequest) {
@@ -79,8 +83,10 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
         Document document = this.findDocumentByDocumentId(signer.getDocumentId());
         List<Signer> signers = this.findAllByDocumentId(signer.getDocumentId());
 
-        signerDomainService.sign(id, signers, document);
+        List<ApplicationEvent> events = signerDomainService.sign(id, signers, document);
         this.update(signers);
+
+        events.forEach(eventPublisher::publishEvent);
     }
 
     @EventListener
@@ -89,6 +95,7 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
         switch (signerDomainEvent.getStatus()) {
             case WAITING:
                 this.waits(signerDomainEvent.getId());
+                break;
             case READY:
                 this.ready(signerDomainEvent.getId());
                 break;

@@ -11,7 +11,9 @@ import com.bezzangss.sign.repository.jpa.documents.document.repository.DocumentJ
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.DOCUMENT_NOT_FOUND_EXCEPTION;
 
@@ -37,5 +39,12 @@ public class DocumentJpaAdapter implements DocumentRepositoryPort {
     @Override
     public Optional<DocumentRepositoryResponse> findById(String id) {
         return documentJpaRepository.findById(id).map(documentJpaMapper::toResponse);
+    }
+
+    @Override
+    public List<DocumentRepositoryResponse> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId) {
+        return documentJpaRepository.findAllByMetaDocumentTypeAndMetaDocumentId(metaDocumentType, metaDocumentId).stream()
+                .map(documentJpaMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

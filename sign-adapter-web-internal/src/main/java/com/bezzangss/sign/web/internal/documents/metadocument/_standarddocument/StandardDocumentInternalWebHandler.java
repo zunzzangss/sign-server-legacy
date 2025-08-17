@@ -23,6 +23,7 @@ public class StandardDocumentInternalWebHandler {
     @Transactional
     public WebResponse<StandardDocumentInternalWebResponse> create(StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest) {
         String id = standardDocumentCommandApplicationPort.create(standardDocumentInternalWebMapper.toApplicationCreateRequest(standardDocumentInternalWebCreateRequest));
+        standardDocumentCommandApplicationPort.process(id);
 
         StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = standardDocumentQueryApplicationPort.findById(id)
                 .map(standardDocumentInternalWebMapper::toResponse)

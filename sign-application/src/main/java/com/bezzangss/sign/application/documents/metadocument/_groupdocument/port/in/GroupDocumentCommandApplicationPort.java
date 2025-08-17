@@ -4,4 +4,6 @@ import com.bezzangss.sign.application.documents.metadocument._groupdocument.port
 
 public interface GroupDocumentCommandApplicationPort {
     String create(GroupDocumentApplicationCreateRequest groupDocumentApplicationCreateRequest);
+
+    void process(String id);
 }

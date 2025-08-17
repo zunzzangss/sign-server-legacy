@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_EXCEPTION;
 
@@ -27,5 +29,12 @@ public class DocumentQueryApplication implements DocumentQueryApplicationPort, D
         if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
 
         return documentRepositoryPort.findById(id).map(documentApplicationMapper::toDomain);
+    }
+
+    @Override
+    public List<Document> findAllDomainByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId) {
+        return documentRepositoryPort.findAllByMetaDocumentTypeAndMetaDocumentId(metaDocumentType, metaDocumentId).stream()
+                .map(documentApplicationMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

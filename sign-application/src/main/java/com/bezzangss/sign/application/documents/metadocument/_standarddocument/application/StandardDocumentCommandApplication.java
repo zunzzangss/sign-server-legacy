@@ -51,4 +51,9 @@ public class StandardDocumentCommandApplication implements StandardDocumentComma
 
         return id;
     }
+
+    @Override
+    public void process(String id) {
+        metaDocumentCommandApplicationPort.process(MetaDocumentType.STANDARD_DOCUMENT.name(), id);
+    }
 }

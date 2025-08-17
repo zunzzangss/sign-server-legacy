@@ -7,4 +7,6 @@ public interface MetaDocumentCommandApplicationPort {
     String replicateResourceByBaseDocument(MetaDocumentApplicationReplicateResourceByBaseDocumentRequest metaDocumentApplicationReplicateResourceByBaseDocumentRequest);
 
     String createDocument(MetaDocumentApplicationCreateDocumentRequest metaDocumentApplicationCreateDocumentRequest);
+
+    void process(String metaDocumentType, String metaDocumentId);
 }

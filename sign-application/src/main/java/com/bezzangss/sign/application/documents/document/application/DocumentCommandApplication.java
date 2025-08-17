@@ -23,6 +23,8 @@ import com.bezzangss.sign.domain.documents.document.event.DocumentDomainEvent;
 import com.bezzangss.sign.domain.documents.document.service.DocumentDomainService;
 import com.bezzangss.sign.domain.documents.metadocument.MetaDocumentType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +44,14 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
     private final DocumentRepositoryPort documentRepositoryPort;
 
     private final PublisherCommandApplicationPort publisherCommandApplicationPort;
+
     private final SignerApplicationCommandPort signerApplicationCommandPort;
     private final SignerApplicationQueryPort signerApplicationQueryPort;
     private final SignerQueryApplicationBridge signerQueryApplicationBridge;
+
     private final CcCommandApplicationPort ccCommandApplicationPort;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public String create(DocumentApplicationCreateRequest documentApplicationCreateRequest) {
@@ -75,8 +81,10 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
         Document document = this.findDocumentById(id);
         List<Signer> signers = signerQueryApplicationBridge.findAllDomainByDocumentId(id);
 
-        documentDomainService.process(signers, document);
+        List<ApplicationEvent> events = documentDomainService.process(signers, document);
         this.update(document);
+
+        events.forEach(eventPublisher::publishEvent);
     }
 
     private void complete(String id) {
