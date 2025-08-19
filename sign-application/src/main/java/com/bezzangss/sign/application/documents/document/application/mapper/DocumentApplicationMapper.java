@@ -1,8 +1,11 @@
 package com.bezzangss.sign.application.documents.document.application.mapper;
 
 import com.bezzangss.sign.application.documents.associate.cc.port.in.dto.request.CcApplicationCreateRequest;
+import com.bezzangss.sign.application.documents.associate.cc.port.in.dto.response.CcApplicationResponse;
 import com.bezzangss.sign.application.documents.associate.publisher.port.in.dto.request.PublisherApplicationCreateRequest;
+import com.bezzangss.sign.application.documents.associate.publisher.port.in.dto.response.PublisherApplicationResponse;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.request.SignerApplicationCreateRequest;
+import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.response.SignerApplicationResponse;
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.common.CcInDocumentApplicationCreateRequest;
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.common.PublisherInDocumentApplicationCreateRequest;
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.common.SignerInDocumentApplicationCreateRequest;
@@ -23,7 +26,11 @@ public interface DocumentApplicationMapper extends CommonMapper {
 
     DocumentRepositoryUpdateRequest toRepositoryUpdateRequest(Document document);
 
-    DocumentApplicationResponse toApplicationResponse(DocumentRepositoryResponse documentRepositoryResponse);
+    DocumentApplicationResponse.Publisher toApplicationResponse(PublisherApplicationResponse publisherApplicationResponse);
+
+    DocumentApplicationResponse.Signer toApplicationResponse(SignerApplicationResponse signerApplicationResponse);
+
+    DocumentApplicationResponse.Cc toApplicationResponse(CcApplicationResponse ccApplicationResponse);
 
     PublisherApplicationCreateRequest toApplicationCreateRequest(PublisherInDocumentApplicationCreateRequest publisherInDocumentApplicationCreateRequest, String documentId);
 

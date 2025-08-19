@@ -8,6 +8,10 @@ import com.bezzangss.sign.web.internal.documents.associate.signer.dto.response.S
 import com.bezzangss.sign.web.internal.documents.associate.signer.mapper.SignerInternalWebMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.SIGNER_NOT_FOUND_EXCEPTION;
 
@@ -18,6 +22,7 @@ public class SignerInternalWebHandler {
     private final SignerApplicationQueryPort signerApplicationQueryPort;
     private final SignerApplicationCommandPort signerApplicationCommandPort;
 
+    @Transactional
     public WebResponse<SignerInternalWebResponse> sign(String id) {
         signerApplicationCommandPort.sign(id);
 
@@ -26,5 +31,23 @@ public class SignerInternalWebHandler {
                 .orElseThrow(() -> new InternalWebException(SIGNER_NOT_FOUND_EXCEPTION, id));
 
         return WebResponse.success(signerInternalWebResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public WebResponse<SignerInternalWebResponse> findById(String id) {
+        SignerInternalWebResponse signerInternalWebResponse = signerApplicationQueryPort.findById(id)
+                .map(signerInternalWebMapper::toResponse)
+                .orElseThrow(() -> new InternalWebException(SIGNER_NOT_FOUND_EXCEPTION, id));
+
+        return WebResponse.success(signerInternalWebResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public WebResponse<List<SignerInternalWebResponse>> findAllByDocumentId(String documentId) {
+        List<SignerInternalWebResponse> signerInternalWebResponses = signerApplicationQueryPort.findAllByDocumentId(documentId).stream()
+                .map(signerInternalWebMapper::toResponse)
+                .collect(Collectors.toList());
+
+        return WebResponse.success(signerInternalWebResponses);
     }
 }

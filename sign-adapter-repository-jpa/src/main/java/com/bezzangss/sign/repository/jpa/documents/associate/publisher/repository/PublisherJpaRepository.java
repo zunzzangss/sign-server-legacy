@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface PublisherJpaRepository extends JpaRepository<PublisherJpaEntity, String>, PublisherJpaRepositoryCustom {
     Optional<PublisherJpaEntity> findById(String id);
+
+    Optional<PublisherJpaEntity> findByDocumentId(String documentId);
 }

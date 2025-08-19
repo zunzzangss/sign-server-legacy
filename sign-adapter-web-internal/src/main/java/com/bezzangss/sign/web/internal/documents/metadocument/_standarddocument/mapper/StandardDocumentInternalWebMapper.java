@@ -8,9 +8,17 @@ import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
 import org.mapstruct.Mapper;
 
+import java.util.Optional;
+
 @Mapper(config = CommonMapperConfigurer.class)
 public interface StandardDocumentInternalWebMapper extends CommonMapper {
+    StandardDocumentApplicationCreateRequest toApplicationCreateRequest(StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest);
+
     StandardDocumentInternalWebResponse toResponse(StandardDocumentApplicationResponse standardDocumentApplicationResponse);
 
-    StandardDocumentApplicationCreateRequest toApplicationCreateRequest(StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest);
+    StandardDocumentInternalWebResponse.Document toResponse(StandardDocumentApplicationResponse.Document document);
+
+    default Optional<StandardDocumentInternalWebResponse.Document> toResponse(Optional<StandardDocumentApplicationResponse.Document> document) {
+        return document == null ? null : document.map(this::toResponse);
+    }
 }

@@ -17,43 +17,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class TemplateDocumentInternalWebRestDoc {
-    public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper) throws Exception {
-        String resourceCreateResponseAsString = ResourceInternalWebRestDoc.create(mockMvc, httpHeaders)
+    public static ResultActions createSuccess(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper) throws Exception {
+        String resourceCreateResponseAsString = ResourceInternalWebRestDoc.createByFileSuccess(mockMvc, httpHeaders)
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         String resourceId = objectMapper.readTree(resourceCreateResponseAsString).path("contents").path("id").asText();
-        String name = UUID.randomUUID().toString();
-        String description = UUID.randomUUID().toString();
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = getSuccessCreateRequest(resourceId);
 
+        return create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.name").value(templateDocumentInternalWebCreateRequest.getName()))
+                .andExpect(jsonPath("$.contents.description").value(templateDocumentInternalWebCreateRequest.getDescription()))
+                .andExpect(jsonPath("$.contents.status").value("NONE"))
+                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty());
+    }
+
+    public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper, TemplateDocumentInternalWebCreateRequest request) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/template-document/create")
                                 .headers(httpHeaders)
                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                                 .accept(MediaType.APPLICATION_JSON)
-                                .content(
-                                        objectMapper.writeValueAsString(
-                                                TemplateDocumentInternalWebCreateRequest.builder()
-                                                        .name(name)
-                                                        .description(description)
-                                                        .resource(
-                                                                ResourceInternalWebCreateByIdRequest.builder()
-                                                                        .id(resourceId)
-                                                                        .build()
-                                                        )
-                                                        .build()
-                                        )
-                                )
+                                .content(objectMapper.writeValueAsString(request))
                 )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contents.id").isNotEmpty())
-                .andExpect(jsonPath("$.contents.name").value(name))
-                .andExpect(jsonPath("$.contents.description").value(description))
-                .andExpect(jsonPath("$.contents.status").value("NONE"))
-                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
-                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
-                .andExpect(jsonPath("$.contents.id").isNotEmpty())
-        ;
+                .andDo(print());
+    }
+
+    private static TemplateDocumentInternalWebCreateRequest getSuccessCreateRequest(String resourceId) {
+        return TemplateDocumentInternalWebCreateRequest.builder()
+                .name(UUID.randomUUID().toString())
+                .description(UUID.randomUUID().toString())
+                .resource(
+                        ResourceInternalWebCreateByIdRequest.builder()
+                                .id(resourceId)
+                                .build()
+                )
+                .build();
     }
 }

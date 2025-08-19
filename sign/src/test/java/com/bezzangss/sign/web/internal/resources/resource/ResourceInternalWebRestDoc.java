@@ -14,23 +14,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ResourceInternalWebRestDoc {
-    public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders) throws Exception {
+    public static ResultActions createByFileSuccess(MockMvc mockMvc, HttpHeaders httpHeaders) throws Exception {
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                UUID.randomUUID().toString(),
+                MediaType.TEXT_PLAIN_VALUE,
+                UUID.randomUUID().toString().getBytes()
+        );
+
+        return createByFile(mockMvc, httpHeaders, file)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty());
+    }
+
+    public static ResultActions createByFile(MockMvc mockMvc, HttpHeaders httpHeaders, MockMultipartFile file) throws Exception {
         return mockMvc.perform(
                         fileUpload("/internal/v1/resource/create-by-file")
-                                .file(
-                                        new MockMultipartFile(
-                                                "file",
-                                                UUID.randomUUID().toString(),
-                                                MediaType.TEXT_PLAIN_VALUE,
-                                                UUID.randomUUID().toString().getBytes()
-                                        )
-                                )
+                                .file(file)
                                 .headers(httpHeaders)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contents.id").isNotEmpty())
-                ;
+                .andDo(print());
     }
 }

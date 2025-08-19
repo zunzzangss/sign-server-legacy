@@ -1,0 +1,31 @@
+그룹 문서입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-documents-metadocument-groupdocument-create]]
+== *생성*
+
+*Request*
+
+* Method : POST
+* Path : ``/internal/v1/group-document/create``
+* Content-Type : ``application/json``
+* Header
+* Body
+
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/groupdocument/create/request-fields.adoc[]
+
+include::{snippets}/documents/metadocument/groupdocument/create/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/groupdocument/create/response-fields.adoc[]
+
+include::{snippets}/documents/metadocument/groupdocument/create/http-response.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/metadocument/groupdocument/create/response-fields-contents.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

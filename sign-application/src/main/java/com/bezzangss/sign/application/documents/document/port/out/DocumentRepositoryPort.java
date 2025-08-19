@@ -14,5 +14,7 @@ public interface DocumentRepositoryPort {
 
     Optional<DocumentRepositoryResponse> findById(String id);
 
+    Optional<DocumentRepositoryResponse> findByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
+
     List<DocumentRepositoryResponse> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
 }

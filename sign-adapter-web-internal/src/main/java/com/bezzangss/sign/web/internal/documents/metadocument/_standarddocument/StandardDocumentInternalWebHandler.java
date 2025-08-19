@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.bezzangss.sign.common.exception.ErrorCode.STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION;
 
 @RequiredArgsConstructor
@@ -25,7 +29,16 @@ public class StandardDocumentInternalWebHandler {
         String id = standardDocumentCommandApplicationPort.create(standardDocumentInternalWebMapper.toApplicationCreateRequest(standardDocumentInternalWebCreateRequest));
         standardDocumentCommandApplicationPort.process(id);
 
-        StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = standardDocumentQueryApplicationPort.findById(id)
+        StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = standardDocumentQueryApplicationPort.findById(id, new HashSet<>(Arrays.asList("DOCUMENT")))
+                .map(standardDocumentInternalWebMapper::toResponse)
+                .orElseThrow(() -> new InternalWebException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, id));
+
+        return WebResponse.success(standardDocumentInternalWebResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public WebResponse<StandardDocumentInternalWebResponse> findById(String id, Set<String> include) {
+        StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = standardDocumentQueryApplicationPort.findById(id, include)
                 .map(standardDocumentInternalWebMapper::toResponse)
                 .orElseThrow(() -> new InternalWebException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, id));
 

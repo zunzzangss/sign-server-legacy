@@ -1,17 +1,19 @@
 package com.bezzangss.sign.web.internal.resources.resource.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.Instant;
 
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Setter
 @Getter
 public class ResourceInternalWebResponse {
-    private final String id;
-    private final String type;
-    private final String source;
-    private final long size;
-    private final Instant createdAt;
-    private final Instant lastModifiedAt;
+    private String id;
+    private String type;
+    private String source;
+    private long size;
+    private Instant createdAt;
+    private Instant lastModifiedAt;
 }

@@ -42,6 +42,11 @@ public class DocumentJpaAdapter implements DocumentRepositoryPort {
     }
 
     @Override
+    public Optional<DocumentRepositoryResponse> findByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId) {
+        return documentJpaRepository.findByMetaDocumentTypeAndMetaDocumentId(metaDocumentType, metaDocumentId).map(documentJpaMapper::toResponse);
+    }
+
+    @Override
     public List<DocumentRepositoryResponse> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId) {
         return documentJpaRepository.findAllByMetaDocumentTypeAndMetaDocumentId(metaDocumentType, metaDocumentId).stream()
                 .map(documentJpaMapper::toResponse)

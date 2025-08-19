@@ -11,6 +11,7 @@ import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceI
 import com.bezzangss.sign.web.internal.resources.resource.mapper.ResourceInternalWebMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.RESOURCE_NOT_FOUND_EXCEPTION;
 
@@ -22,6 +23,7 @@ public class ResourceInternalWebHandler {
     private final ResourceCommandApplicationPort resourceCommandApplicationPort;
     private final ResourceQueryApplicationPort resourceQueryApplicationPort;
 
+    @Transactional
     public WebResponse<ResourceInternalWebResponse> createByMultipartFile(ResourceInternalWebCreateByMultipartFileRequest resourceInternalWebCreateByMultipartFileRequest) {
         String id = resourceCommandApplicationPort.create(
                 ResourceApplicationCreateRequest.builder()

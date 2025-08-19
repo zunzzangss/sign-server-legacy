@@ -33,6 +33,15 @@ public class SignerQueryApplication implements SignerApplicationQueryPort, Signe
     }
 
     @Override
+    public List<SignerApplicationResponse> findAllByDocumentId(String documentId) {
+        if (ObjectUtils.isEmpty(documentId)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "documentId");
+
+        return signerRepositoryPort.findAllByDocumentId(documentId).stream()
+                .map(signerApplicationMapper::toApplicationResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Signer> findAllDomainByDocumentId(String documentId) {
         if (ObjectUtils.isEmpty(documentId)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "documentId");
 

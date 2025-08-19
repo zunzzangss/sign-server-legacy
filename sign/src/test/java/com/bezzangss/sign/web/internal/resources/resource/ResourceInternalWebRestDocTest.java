@@ -22,8 +22,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 @ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
 public class ResourceInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
-    public void create() throws Exception {
-        ResourceInternalWebRestDoc.create(mockMvc, httpHeaders)
+    public void createByFileSuccess() throws Exception {
+        ResourceInternalWebRestDoc.createByFileSuccess(mockMvc, httpHeaders)
                 .andDo(
                         document("resources/resource/create-by-file",
                                 preprocessRequest(prettyPrint()),
@@ -38,8 +38,7 @@ public class ResourceInternalWebRestDocTest extends InternalWebRestDocTest {
                                 preprocessResponse(prettyPrint()),
                                 this.responseFieldsSnippet()
                         )
-                )
-        ;
+                );
     }
 
     private RequestPartsSnippet requestPartsSnippet() {

@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.bezzangss.sign.common.exception.ErrorCode.GROUP_DOCUMENT_NOT_FOUND_EXCEPTION;
 
 @RequiredArgsConstructor
@@ -25,7 +29,16 @@ public class GroupDocumentInternalWebHandler {
         String id = groupDocumentCommandApplicationPort.create(groupDocumentInternalWebMapper.toApplicationCreateRequest(groupDocumentInternalWebCreateRequest));
         groupDocumentCommandApplicationPort.process(id);
 
-        GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = groupDocumentQueryApplicationPort.findById(id)
+        GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = groupDocumentQueryApplicationPort.findById(id, new HashSet<>(Arrays.asList("DOCUMENT")))
+                .map(groupDocumentInternalWebMapper::toResponse)
+                .orElseThrow(() -> new InternalWebException(GROUP_DOCUMENT_NOT_FOUND_EXCEPTION, id));
+
+        return WebResponse.success(groupDocumentInternalWebResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public WebResponse<GroupDocumentInternalWebResponse> findById(String id, Set<String> include) {
+        GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = groupDocumentQueryApplicationPort.findById(id, include)
                 .map(groupDocumentInternalWebMapper::toResponse)
                 .orElseThrow(() -> new InternalWebException(GROUP_DOCUMENT_NOT_FOUND_EXCEPTION, id));
 

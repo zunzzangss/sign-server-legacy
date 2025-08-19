@@ -2,6 +2,7 @@ package com.bezzangss.sign.application.resources.resourcereference.application;
 
 import com.bezzangss.sign.application.ApplicationException;
 import com.bezzangss.sign.application.documents.basedocument._templatedocument.port.in.TemplateDocumentQueryApplicationPort;
+import com.bezzangss.sign.application.documents.metadocument._groupdocument.port.in.GroupDocumentQueryApplicationPort;
 import com.bezzangss.sign.application.documents.metadocument._standarddocument.port.in.StandardDocumentQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resource.port.in.ResourceQueryApplicationPort;
 import com.bezzangss.sign.application.resources.resourcereference.application.mapper.ResourceReferenceApplicationMapper;
@@ -15,6 +16,8 @@ import com.bezzangss.sign.domain.resources.resourcereference.dto.ResourceReferen
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 import static com.bezzangss.sign.common.exception.ErrorCode.*;
 
@@ -30,6 +33,7 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
     private final TemplateDocumentQueryApplicationPort templateDocumentQueryApplicationPort;
 
     private final StandardDocumentQueryApplicationPort standardDocumentQueryApplicationPort;
+    private final GroupDocumentQueryApplicationPort groupDocumentQueryApplicationPort;
 
     @Override
     public String create(ResourceReferenceApplicationCreateRequest resourceReferenceApplicationCreateRequest) {
@@ -55,7 +59,10 @@ public class ResourceReferenceCommandApplication implements ResourceReferenceCom
                 if (!templateDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(TEMPLATE_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
                 break;
             case STANDARD_DOCUMENT:
-                if (!standardDocumentQueryApplicationPort.findById(domainId).isPresent()) throw new ApplicationException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
+                if (!standardDocumentQueryApplicationPort.findById(domainId, Collections.emptySet()).isPresent()) throw new ApplicationException(STANDARD_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
+                break;
+            case GROUP_DOCUMENT:
+                if (!groupDocumentQueryApplicationPort.findById(domainId, Collections.emptySet()).isPresent()) throw new ApplicationException(GROUP_DOCUMENT_NOT_FOUND_EXCEPTION, domainId);
                 break;
             default:
                 throw new ApplicationException(RESOURCE_REFERENCE_ILLEGAL_TYPE_INTERNAL_SERVER_ERROR, domain.name());

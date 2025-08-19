@@ -19,8 +19,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 @ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
 public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
-    public void create() throws Exception {
-        TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper)
+    public void createSuccess() throws Exception {
+        TemplateDocumentInternalWebRestDoc.createSuccess(mockMvc, httpHeaders, objectMapper)
                 .andDo(
                         document("documents/basedocument/templatedocument/create",
                                 preprocessRequest(prettyPrint()),
@@ -35,8 +35,7 @@ public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                                 preprocessResponse(prettyPrint()),
                                 this.responseFieldsSnippet()
                         )
-                )
-        ;
+                );
     }
 
     private RequestFieldsSnippet requestFieldsSnippet() {
@@ -53,7 +52,7 @@ public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTe
                 beneathPath("contents").withSubsectionId("contents"),
                 fieldWithPath("id").type(JsonFieldType.STRING).description(TemplateDocument.ID),
                 fieldWithPath("name").type(JsonFieldType.STRING).description(TemplateDocument.NAME),
-                fieldWithPath("description").type(JsonFieldType.STRING).description(TemplateDocument.DESCRIPTION),
+                fieldWithPath("description").type(JsonFieldType.STRING).description(TemplateDocument.DESCRIPTION).optional(),
                 fieldWithPath("status").type(JsonFieldType.STRING).description(TemplateDocument.STATUS),
                 fieldWithPath("createdAt").type(JsonFieldType.NUMBER).description(TemplateDocument.CREATED_AT),
                 fieldWithPath("lastModifiedAt").type(JsonFieldType.NUMBER).description(TemplateDocument.LAST_MODIFIED_AT).optional()

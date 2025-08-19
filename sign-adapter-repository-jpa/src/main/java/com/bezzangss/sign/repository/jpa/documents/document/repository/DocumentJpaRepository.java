@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface DocumentJpaRepository extends JpaRepository<DocumentJpaEntity, String>, DocumentJpaRepositoryCustom {
     Optional<DocumentJpaEntity> findById(String id);
 
+    Optional<DocumentJpaEntity> findByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
+
     List<DocumentJpaEntity> findAllByMetaDocumentTypeAndMetaDocumentId(String metaDocumentType, String metaDocumentId);
 }

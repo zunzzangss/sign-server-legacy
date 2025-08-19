@@ -1,0 +1,30 @@
+서명자입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-documents-associate-signer-sign]]
+== *서명*
+
+*Request*
+
+* Method : POST
+* Path : ``/internal/v1/signer/{id}/sign``
+** id : 서명자 아이디
+* Content-Type : ``application/json``
+* Header
+* Body
+
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/sign/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/sign/response-fields.adoc[]
+
+include::{snippets}/documents/associate/signer/sign/http-response.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/sign/response-fields-contents.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

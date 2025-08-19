@@ -5,9 +5,9 @@ import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,5 +19,13 @@ public class StandardDocumentInternalWebAdapter {
             @RequestBody StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest
     ) {
         return standardDocumentInternalWebHandler.create(standardDocumentInternalWebCreateRequest);
+    }
+
+    @GetMapping(value = "/internal/v1/standard-document/{id}")
+    public WebResponse<StandardDocumentInternalWebResponse> findById(
+            @PathVariable String id,
+            @RequestParam(required = false) Set<String> include
+    ) {
+        return standardDocumentInternalWebHandler.findById(id, include);
     }
 }

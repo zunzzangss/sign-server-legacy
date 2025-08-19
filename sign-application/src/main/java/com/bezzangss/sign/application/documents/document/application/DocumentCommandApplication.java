@@ -120,7 +120,7 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
     }
 
     private void createCcs(List<CcInDocumentApplicationCreateRequest> ccs, String id) {
-        if (ObjectUtils.isEmpty(ccs)) {
+        if (!ObjectUtils.isEmpty(ccs)) {
             for (CcInDocumentApplicationCreateRequest cc : ccs) {
                 ccCommandApplicationPort.create(documentApplicationMapper.toApplicationCreateRequest(cc, id));
             }

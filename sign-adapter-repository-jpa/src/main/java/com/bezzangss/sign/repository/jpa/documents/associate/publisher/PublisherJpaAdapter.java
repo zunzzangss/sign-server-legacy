@@ -25,4 +25,9 @@ public class PublisherJpaAdapter implements PublisherRepositoryPort {
     public Optional<PublisherRepositoryResponse> findById(String id) {
         return publisherJpaRepository.findById(id).map(publisherJpaMapper::toResponse);
     }
+
+    @Override
+    public Optional<PublisherRepositoryResponse> findByDocumentId(String documentId) {
+        return publisherJpaRepository.findByDocumentId(documentId).map(publisherJpaMapper::toResponse);
+    }
 }

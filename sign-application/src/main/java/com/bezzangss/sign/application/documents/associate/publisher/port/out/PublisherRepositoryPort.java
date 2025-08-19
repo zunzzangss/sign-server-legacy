@@ -9,4 +9,6 @@ public interface PublisherRepositoryPort {
     String create(PublisherRepositoryCreateRequest publisherRepositoryCreateRequest);
 
     Optional<PublisherRepositoryResponse> findById(String id);
+
+    Optional<PublisherRepositoryResponse> findByDocumentId(String documentId);
 }
