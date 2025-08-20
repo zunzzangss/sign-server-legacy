@@ -1,0 +1,32 @@
+문서입니다.
+
+:sectnums!: // 아래부터 넘버링 끔
+
+[[link-reference-documents-document-find-by-id]]
+== *조회 (By 아이디)*
+
+*Request*
+
+* Method : GET
+* Path : ``/internal/v1/document/{id}``
+** [.required]``필수`` String id : 문서 아이디
+* Parameter
+** [.optional]``선택`` include : 문서 정보 외, 추가 정보를 조회할 도메인 리스트
+*** PUBLISHER : 발행자 (Publisher) 정보
+*** SIGNER : 서명자 (Signer) 정보
+*** CC : 참조자 (Cc) 정보
+
+[cols="2,1,6"]
+include::{snippets}/documents/document/find-by-id/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/document/find-by-id/response-fields.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/document/find-by-id/response-fields-contents.adoc[]
+
+include::{snippets}/documents/document/find-by-id/http-response.adoc[]
+
+:sectnums: // 아래부터 넘버링 킴

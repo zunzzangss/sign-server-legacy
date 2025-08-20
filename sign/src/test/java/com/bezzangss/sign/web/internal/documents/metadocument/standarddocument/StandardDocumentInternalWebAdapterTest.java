@@ -115,6 +115,7 @@ public class StandardDocumentInternalWebAdapterTest extends InternalWebAdapterTe
                         document("documents/metadocument/standarddocument/find-by-id",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.OBJECT),
                                 this.responseFieldsSnippet()
                         )
                 );

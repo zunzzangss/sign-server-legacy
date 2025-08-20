@@ -10,7 +10,6 @@
 * Method : POST
 * Path : ``/internal/v1/resource/create-by-file``
 * Content-Type : ``multipart/form-data``
-* Header
 * Body
 
 [cols="2,7"]
@@ -22,10 +21,10 @@ include::{snippets}/resources/resource/create-by-file/http-request.adoc[]
 [cols="2,1,6"]
 include::{snippets}/resources/resource/create-by-file/response-fields.adoc[]
 
-include::{snippets}/resources/resource/create-by-file/http-response.adoc[]
-
 *Contents*
 [cols="2,1,6"]
 include::{snippets}/resources/resource/create-by-file/response-fields-contents.adoc[]
+
+include::{snippets}/resources/resource/create-by-file/http-response.adoc[]
 
 :sectnums: // 아래부터 넘버링 킴

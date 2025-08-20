@@ -47,6 +47,11 @@ include::internal/documents/metadocument/standarddocument/standard-document.adoc
 
 include::internal/documents/metadocument/groupdocument/group-document.adoc[leveloffset=+4]
 
+[[link-reference-documents-document]]
+===== *문서 (Document)*
+
+include::internal/documents/document/document.adoc[leveloffset=+4]
+
 [[link-reference-associate]]
 ==== *연관자 (Associate)*
 

@@ -9,10 +9,7 @@
 
 * Method : POST
 * Path : ``/internal/v1/signer/{id}/sign``
-** id : 서명자 아이디
-* Content-Type : ``application/json``
-* Header
-* Body
+** [.required]``필수`` String id : 서명자 아이디
 
 [cols="2,1,6"]
 include::{snippets}/documents/associate/signer/sign/http-request.adoc[]
@@ -21,10 +18,10 @@ include::{snippets}/documents/associate/signer/sign/http-request.adoc[]
 [cols="2,1,6"]
 include::{snippets}/documents/associate/signer/sign/response-fields.adoc[]
 
-include::{snippets}/documents/associate/signer/sign/http-response.adoc[]
-
 *Contents*
 [cols="2,1,6"]
 include::{snippets}/documents/associate/signer/sign/response-fields-contents.adoc[]
+
+include::{snippets}/documents/associate/signer/sign/http-response.adoc[]
 
 :sectnums: // 아래부터 넘버링 킴

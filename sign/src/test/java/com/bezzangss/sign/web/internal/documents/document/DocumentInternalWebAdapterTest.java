@@ -83,6 +83,7 @@ public class DocumentInternalWebAdapterTest extends InternalWebAdapterTest {
                         document("documents/document/find-by-id",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.OBJECT),
                                 this.responseFieldsSnippet()
                         )
                 );

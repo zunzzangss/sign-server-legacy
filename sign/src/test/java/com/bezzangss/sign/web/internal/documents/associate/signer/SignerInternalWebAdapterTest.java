@@ -199,6 +199,7 @@ public class SignerInternalWebAdapterTest extends InternalWebAdapterTest {
                         document("documents/associate/signer/find-all-by-document-id",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.ARRAY),
                                 this.responseFieldsSnippet()
                         )
                 );

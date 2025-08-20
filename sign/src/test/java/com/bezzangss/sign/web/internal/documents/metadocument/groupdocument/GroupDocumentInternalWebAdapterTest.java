@@ -115,6 +115,7 @@ public class GroupDocumentInternalWebAdapterTest extends InternalWebAdapterTest 
                         document("documents/metadocument/groupdocument/find-by-id",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.OBJECT),
                                 this.responseFieldsSnippet()
                         )
                 );
