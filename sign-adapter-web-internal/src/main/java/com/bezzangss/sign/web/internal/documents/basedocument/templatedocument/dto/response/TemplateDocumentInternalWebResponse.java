@@ -7,7 +7,6 @@ import java.time.Instant;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Setter
 @Getter
 public class TemplateDocumentInternalWebResponse {
     private String id;

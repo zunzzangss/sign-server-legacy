@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Setter
 @Getter
 public class GroupDocumentInternalWebResponse {
     private String id;
@@ -21,9 +20,11 @@ public class GroupDocumentInternalWebResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Document> documents;
 
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     @Getter
     public static class Document {
-        private final String id;
+        private String id;
     }
 }

@@ -2,13 +2,17 @@ package com.bezzangss.sign.web.internal.resources.resource;
 
 import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.request.RequestPartsSnippet;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Common;
 import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Resource;
@@ -17,25 +21,36 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
 public class ResourceInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
-    public void createByFileSuccess() throws Exception {
-        ResourceInternalWebRestDoc.createByFileSuccess(mockMvc, httpHeaders)
+    public void 리소스_생성_ByMultipartFile_성공() throws Exception {
+        // given
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
+
+        // when
+        ResultActions resultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty());
+
+        ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
+        });
+
+        // restdoc
+        resultActions
                 .andDo(
                         document("resources/resource/create-by-file",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 this.requestPartsSnippet(),
-                                super.responseFieldsSnippet(JsonFieldType.OBJECT)
-                        )
-                )
-                .andDo(
-                        document("resources/resource/create-by-file",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.OBJECT),
                                 this.responseFieldsSnippet()
                         )
                 );

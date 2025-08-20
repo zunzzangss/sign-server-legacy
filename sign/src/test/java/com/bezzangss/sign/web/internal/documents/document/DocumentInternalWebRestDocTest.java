@@ -3,23 +3,82 @@ package com.bezzangss.sign.web.internal.documents.document;
 import com.bezzangss.sign.web.internal.InternalWebRestDocConstant;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.response.TemplateDocumentInternalWebResponse;
+import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
+import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.StandardDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.Arrays;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
 public class DocumentInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
-    public void findByIdSuccess() throws Exception {
-        DocumentInternalWebRestDoc.findByIdSuccess(mockMvc, httpHeaders, objectMapper)
+    public void 문서_조회_ById_성공() throws Exception {
+        // given
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
+        });
+
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
+        });
+
+        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
+        StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = super.responseContents(standardDocumentCreateResultActions, new ParameterizedTypeReference<StandardDocumentInternalWebResponse>() {
+        });
+
+        String documentId = standardDocumentInternalWebResponse.getDocument().orElseThrow(Exception::new).getId();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("include", Arrays.asList("PUBLISHER", "SIGNER", "CC"));
+
+        // when
+        ResultActions resultActions = DocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, documentId, params);
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").value(documentId))
+                .andExpect(jsonPath("$.contents.name").isNotEmpty())
+                .andExpect(jsonPath("$.contents.description").isNotEmpty())
+                .andExpect(jsonPath("$.contents.status").value("PROCESSING"))
+                .andExpect(jsonPath("$.contents.metaDocumentType").value("STANDARD_DOCUMENT"))
+                .andExpect(jsonPath("$.contents.metaDocumentId").value(standardDocumentInternalWebResponse.getId()))
+                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.lastModifiedAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.publisher").isNotEmpty())
+                .andExpect(jsonPath("$.contents.publisher.id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.signers").isNotEmpty())
+                .andExpect(jsonPath("$.contents.signers[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.ccs").isNotEmpty())
+                .andExpect(jsonPath("$.contents.ccs[*].id").isNotEmpty());
+
+        // restdoc
+        resultActions
                 .andDo(
                         document("documents/document/find-by-id",
                                 preprocessRequest(prettyPrint()),

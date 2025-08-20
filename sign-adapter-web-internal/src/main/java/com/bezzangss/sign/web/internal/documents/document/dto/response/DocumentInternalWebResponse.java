@@ -10,7 +10,6 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Setter
 @Getter
 public class DocumentInternalWebResponse {
     private String id;
@@ -29,21 +28,27 @@ public class DocumentInternalWebResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Cc> ccs;
 
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     @Getter
     public static class Publisher {
-        private final String id;
+        private String id;
     }
 
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     @Getter
     public static class Signer {
-        private final String id;
+        private String id;
     }
 
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     @Getter
     public static class Cc {
-        private final String id;
+        private String id;
     }
 }

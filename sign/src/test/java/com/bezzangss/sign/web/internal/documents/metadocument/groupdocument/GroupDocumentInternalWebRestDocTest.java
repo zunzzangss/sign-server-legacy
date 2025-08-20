@@ -3,44 +3,114 @@ package com.bezzangss.sign.web.internal.documents.metadocument.groupdocument;
 import com.bezzangss.sign.web.internal.InternalWebRestDocConstant.*;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
 import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.response.TemplateDocumentInternalWebResponse;
+import com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.request.GroupDocumentInternalWebCreateRequest;
+import com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.response.GroupDocumentInternalWebResponse;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
 public class GroupDocumentInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
-    public void create() throws Exception {
-        GroupDocumentInternalWebRestDoc.createSuccess(mockMvc, httpHeaders, objectMapper)
+    public void 그룹문서_생성_성공() throws Exception {
+        // given
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
+        });
+
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
+        });
+
+        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+
+        // when
+        ResultActions resultActions = GroupDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.name").value(groupDocumentInternalWebCreateRequest.getName()))
+                .andExpect(jsonPath("$.contents.description").value(groupDocumentInternalWebCreateRequest.getDescription()))
+                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
+                .andExpect(jsonPath("$.contents.documents").isNotEmpty())
+                .andExpect(jsonPath("$.contents.documents[*].id").isNotEmpty());
+
+        // restdoc
+        resultActions
                 .andDo(
                         document("documents/metadocument/groupdocument/create",
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 this.requestFieldsSnippet(),
-                                super.responseFieldsSnippet(JsonFieldType.OBJECT)
-                        )
-                )
-                .andDo(
-                        document("documents/metadocument/groupdocument/create",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
+                                super.responseFieldsSnippet(JsonFieldType.OBJECT),
                                 this.responseFieldsSnippet()
                         )
                 );
     }
 
     @Test
-    public void findByIdSuccess() throws Exception {
-        GroupDocumentInternalWebRestDoc.findByIdSuccess(mockMvc, httpHeaders, objectMapper)
+    public void 그룹문서_조회_ById_성공() throws Exception {
+        // given
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
+        });
+
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
+        });
+
+        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions groupDocumentCreateResultActions = GroupDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
+        GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = super.responseContents(groupDocumentCreateResultActions, new ParameterizedTypeReference<GroupDocumentInternalWebResponse>() {
+        });
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("include", "DOCUMENT");
+
+        // when
+        ResultActions resultActions = GroupDocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, groupDocumentInternalWebResponse.getId(), params);
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contents.id").isNotEmpty())
+                .andExpect(jsonPath("$.contents.name").value(groupDocumentInternalWebCreateRequest.getName()))
+                .andExpect(jsonPath("$.contents.description").value(groupDocumentInternalWebCreateRequest.getDescription()))
+                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
+                .andExpect(jsonPath("$.contents.documents").isNotEmpty())
+                .andExpect(jsonPath("$.contents.documents[*].id").isNotEmpty());
+
+        // restdoc
+        resultActions
                 .andDo(
                         document("documents/metadocument/groupdocument/find-by-id",
                                 preprocessRequest(prettyPrint()),

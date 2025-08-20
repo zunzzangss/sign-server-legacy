@@ -1,6 +1,5 @@
 package com.bezzangss.sign.web.internal.documents.metadocument.groupdocument;
 
-import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
 import com.bezzangss.sign.web.internal.documents.document.dto.request.CcInDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.document.dto.request.PublisherInDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.document.dto.request.SignerInDocumentInternalWebCreateRequest;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -19,29 +19,8 @@ import java.util.UUID;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GroupDocumentInternalWebRestDoc {
-    public static ResultActions createSuccess(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper) throws Exception {
-        String templateDocumentCreateResponseAsString = TemplateDocumentInternalWebRestDoc.createSuccess(mockMvc, httpHeaders, objectMapper)
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        String templateDocumentId = objectMapper.readTree(templateDocumentCreateResponseAsString).path("contents").path("id").asText();
-        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = getSuccessCreateRequest(templateDocumentId);
-
-        return create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contents.id").isNotEmpty())
-                .andExpect(jsonPath("$.contents.name").value(groupDocumentInternalWebCreateRequest.getName()))
-                .andExpect(jsonPath("$.contents.description").value(groupDocumentInternalWebCreateRequest.getDescription()))
-                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
-                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty())
-                .andExpect(jsonPath("$.contents.documents").isNotEmpty())
-                .andExpect(jsonPath("$.contents.documents[*].id").isNotEmpty());
-    }
-
     public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper, GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/group-document/create")
@@ -53,41 +32,17 @@ public class GroupDocumentInternalWebRestDoc {
                 .andDo(print());
     }
 
-    public static ResultActions findByIdSuccess(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper) throws Exception{
-        String templateDocumentCreateResponseAsString = TemplateDocumentInternalWebRestDoc.createSuccess(mockMvc, httpHeaders, objectMapper)
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        String templateDocumentId = objectMapper.readTree(templateDocumentCreateResponseAsString).path("contents").path("id").asText();
-        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = getSuccessCreateRequest(templateDocumentId);
-
-        String groupDocumentCreateResponseAsString = create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest)
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        String id = objectMapper.readTree(groupDocumentCreateResponseAsString).path("contents").path("id").asText();
-
-        return findById(mockMvc, httpHeaders, id)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contents.id").value(id))
-                .andExpect(jsonPath("$.contents.name").value(groupDocumentInternalWebCreateRequest.getName()))
-                .andExpect(jsonPath("$.contents.description").value(groupDocumentInternalWebCreateRequest.getDescription()))
-                .andExpect(jsonPath("$.contents.createdAt").isNotEmpty())
-                .andExpect(jsonPath("$.contents.lastModifiedAt").isEmpty());
-    }
-
-    public static ResultActions findById(MockMvc mockMvc, HttpHeaders httpHeaders, String id) throws Exception {
+    public static ResultActions findById(MockMvc mockMvc, HttpHeaders httpHeaders, String id, MultiValueMap<String, String> params) throws Exception {
         return mockMvc.perform(
-                        get("/internal/v1/group-document/" + id)
-                                .param("include", "DOCUMENT")
+                        get("/internal/v1/group-document/{id}", id)
+                                .params(params)
                                 .headers(httpHeaders)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print());
     }
 
-    private static GroupDocumentInternalWebCreateRequest getSuccessCreateRequest(String templateDocumentId) {
+    public static GroupDocumentInternalWebCreateRequest getCreateRequestSuccess(String templateDocumentId) {
         return GroupDocumentInternalWebCreateRequest.builder()
                 .name(UUID.randomUUID().toString())
                 .description(UUID.randomUUID().toString())

@@ -9,7 +9,6 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Setter
 @Getter
 public class StandardDocumentInternalWebResponse {
     private String id;
@@ -21,9 +20,11 @@ public class StandardDocumentInternalWebResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Optional<Document> document;
 
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     @Getter
     public static class Document {
-        private final String id;
+        private String id;
     }
 }
