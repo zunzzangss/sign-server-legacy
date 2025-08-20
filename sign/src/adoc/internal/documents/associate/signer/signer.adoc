@@ -24,4 +24,28 @@ include::{snippets}/documents/associate/signer/sign/response-fields-contents.ado
 
 include::{snippets}/documents/associate/signer/sign/http-response.adoc[]
 
+
+[[link-reference-documents-associate-signer-find-all-by-document-id]]
+== *조회 (By 문서 아이디)*
+
+*Request*
+
+* Method : GET
+* Path : ``/internal/v1/signer/find-all-by-document-id``
+* Parameter
+** [.required]``필수`` documentId : 문서 아이디
+
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/find-all-by-document-id/http-request.adoc[]
+
+*Response*
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/find-all-by-document-id/response-fields.adoc[]
+
+*Contents*
+[cols="2,1,6"]
+include::{snippets}/documents/associate/signer/find-all-by-document-id/response-fields-contents.adoc[]
+
+include::{snippets}/documents/associate/signer/find-all-by-document-id/http-response.adoc[]
+
 :sectnums: // 아래부터 넘버링 킴

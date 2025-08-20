@@ -22,7 +22,7 @@ public class SignerInternalWebAdapterTestSupport {
 
     public static ResultActions findAllByDocumentId(MockMvc mockMvc, HttpHeaders httpHeaders, MultiValueMap<String, String> params) throws Exception {
         return mockMvc.perform(
-                        get("/internal/v1/signer/list-by-document-id")
+                        get("/internal/v1/signer/find-all-by-document-id")
                                 .params(params)
                                 .headers(httpHeaders)
                                 .accept(MediaType.APPLICATION_JSON)

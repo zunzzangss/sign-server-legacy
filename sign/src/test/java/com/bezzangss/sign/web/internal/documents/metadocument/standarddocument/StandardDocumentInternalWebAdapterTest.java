@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
 public class StandardDocumentInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
-    public void 기본문서_생성_성공() throws Exception {
+    public void 일반문서_생성_성공() throws Exception {
         // given
         MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
         ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
@@ -75,7 +75,7 @@ public class StandardDocumentInternalWebAdapterTest extends InternalWebAdapterTe
     }
 
     @Test
-    public void 기본문서_조회_ById_성공() throws Exception {
+    public void 일반문서_조회_ById_성공() throws Exception {
         // given
         MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
         ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);

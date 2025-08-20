@@ -19,14 +19,7 @@ public class SignerInternalWebAdapter {
         return signerInternalWebHandler.sign(id);
     }
 
-    @GetMapping(value = "/internal/v1/signer/{id}")
-    public WebResponse<SignerInternalWebResponse> findById(
-            @PathVariable String id
-    ) {
-        return signerInternalWebHandler.findById(id);
-    }
-
-    @GetMapping(value = "/internal/v1/signer/list-by-document-id")
+    @GetMapping(value = "/internal/v1/signer/find-all-by-document-id")
     public WebResponse<List<SignerInternalWebResponse>> findAllByDocumentId(
             @RequestParam String documentId
     ) {

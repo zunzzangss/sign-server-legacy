@@ -34,15 +34,6 @@ public class SignerInternalWebHandler {
     }
 
     @Transactional(readOnly = true)
-    public WebResponse<SignerInternalWebResponse> findById(String id) {
-        SignerInternalWebResponse signerInternalWebResponse = signerApplicationQueryPort.findById(id)
-                .map(signerInternalWebMapper::toResponse)
-                .orElseThrow(() -> new InternalWebException(SIGNER_NOT_FOUND_EXCEPTION, id));
-
-        return WebResponse.success(signerInternalWebResponse);
-    }
-
-    @Transactional(readOnly = true)
     public WebResponse<List<SignerInternalWebResponse>> findAllByDocumentId(String documentId) {
         List<SignerInternalWebResponse> signerInternalWebResponses = signerApplicationQueryPort.findAllByDocumentId(documentId).stream()
                 .map(signerInternalWebMapper::toResponse)
