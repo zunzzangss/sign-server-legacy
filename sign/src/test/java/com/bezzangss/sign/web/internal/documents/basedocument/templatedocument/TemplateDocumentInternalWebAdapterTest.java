@@ -1,9 +1,9 @@
 package com.bezzangss.sign.web.internal.documents.basedocument.templatedocument;
 
-import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTest;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConfigurer;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
-import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.*;
+import static com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -24,20 +24,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
-public class TemplateDocumentInternalWebRestDocTest extends InternalWebRestDocTest {
+@ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
+public class TemplateDocumentInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
     public void 서식문서_생성_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions ResourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions ResourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(ResourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
 
         // when
-        ResultActions resultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        ResultActions resultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
 
         // then
         resultActions

@@ -1,14 +1,14 @@
 package com.bezzangss.sign.web.internal.documents.metadocument.groupdocument;
 
-import com.bezzangss.sign.web.internal.InternalWebRestDocConstant.*;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
-import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.*;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTest;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConfigurer;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.response.TemplateDocumentInternalWebResponse;
 import com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.request.GroupDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.metadocument._groupdocument.dto.response.GroupDocumentInternalWebResponse;
-import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,25 +30,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
-public class GroupDocumentInternalWebRestDocTest extends InternalWebRestDocTest {
+@ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
+public class GroupDocumentInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
     public void 그룹문서_생성_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
 
         // when
-        ResultActions resultActions = GroupDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
+        ResultActions resultActions = GroupDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
 
         // then
         resultActions
@@ -77,18 +77,18 @@ public class GroupDocumentInternalWebRestDocTest extends InternalWebRestDocTest 
     @Test
     public void 그룹문서_조회_ById_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
-        ResultActions groupDocumentCreateResultActions = GroupDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
+        GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest = GroupDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions groupDocumentCreateResultActions = GroupDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, groupDocumentInternalWebCreateRequest);
         GroupDocumentInternalWebResponse groupDocumentInternalWebResponse = super.responseContents(groupDocumentCreateResultActions, new ParameterizedTypeReference<GroupDocumentInternalWebResponse>() {
         });
 
@@ -96,7 +96,7 @@ public class GroupDocumentInternalWebRestDocTest extends InternalWebRestDocTest 
         params.add("include", "DOCUMENT");
 
         // when
-        ResultActions resultActions = GroupDocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, groupDocumentInternalWebResponse.getId(), params);
+        ResultActions resultActions = GroupDocumentInternalWebAdapterTestSupport.findById(mockMvc, httpHeaders, groupDocumentInternalWebResponse.getId(), params);
 
         // then
         resultActions

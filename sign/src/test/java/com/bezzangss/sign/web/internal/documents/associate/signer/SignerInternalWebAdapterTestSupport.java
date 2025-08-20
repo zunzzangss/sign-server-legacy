@@ -10,7 +10,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class SignerInternalWebRestDoc {
+public class SignerInternalWebAdapterTestSupport {
     public static ResultActions sign(MockMvc mockMvc, HttpHeaders httpHeaders, String id) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/signer/{id}/sign", id)

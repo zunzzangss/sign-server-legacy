@@ -9,7 +9,7 @@ import org.springframework.util.MultiValueMap;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class DocumentInternalWebRestDoc {
+public class DocumentInternalWebAdapterTestSupport {
     public static ResultActions findById(MockMvc mockMvc, HttpHeaders httpHeaders, String id, MultiValueMap<String, String> params) throws Exception {
         return mockMvc.perform(
                         get("/internal/v1/document/{id}", id)

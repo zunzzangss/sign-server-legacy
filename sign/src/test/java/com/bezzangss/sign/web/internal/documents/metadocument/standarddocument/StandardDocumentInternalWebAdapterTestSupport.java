@@ -20,7 +20,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class StandardDocumentInternalWebRestDoc {
+public class StandardDocumentInternalWebAdapterTestSupport {
     public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper, StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/standard-document/create")

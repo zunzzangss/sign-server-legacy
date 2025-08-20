@@ -1,6 +1,6 @@
 package com.bezzangss.sign.web.internal;
 
-public class InternalWebRestDocConstant {
+public class InternalWebAdapterTestConstant {
     public static final String SUCCESS = "성공 여부";
     public static final String ERROR = "에러";
     public static final String CONTENTS = "본문";

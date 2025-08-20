@@ -1,15 +1,15 @@
 package com.bezzangss.sign.web.internal.documents.document;
 
-import com.bezzangss.sign.web.internal.InternalWebRestDocConstant;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
-import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTest;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConfigurer;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.response.TemplateDocumentInternalWebResponse;
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
-import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.StandardDocumentInternalWebRestDoc;
-import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.StandardDocumentInternalWebAdapterTestSupport;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,23 +32,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
-public class DocumentInternalWebRestDocTest extends InternalWebRestDocTest {
+@ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
+public class DocumentInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
     public void 문서_조회_ById_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
-        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
+        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
         StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = super.responseContents(standardDocumentCreateResultActions, new ParameterizedTypeReference<StandardDocumentInternalWebResponse>() {
         });
 
@@ -57,7 +57,7 @@ public class DocumentInternalWebRestDocTest extends InternalWebRestDocTest {
         params.put("include", Arrays.asList("PUBLISHER", "SIGNER", "CC"));
 
         // when
-        ResultActions resultActions = DocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, documentId, params);
+        ResultActions resultActions = DocumentInternalWebAdapterTestSupport.findById(mockMvc, httpHeaders, documentId, params);
 
         // then
         resultActions
@@ -91,20 +91,20 @@ public class DocumentInternalWebRestDocTest extends InternalWebRestDocTest {
     private ResponseFieldsSnippet responseFieldsSnippet() {
         return responseFields(
                 beneathPath("contents").withSubsectionId("contents"),
-                fieldWithPath("id").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.ID),
-                fieldWithPath("name").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.NAME),
-                fieldWithPath("description").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.DESCRIPTION).optional(),
-                fieldWithPath("status").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.STATUS),
-                fieldWithPath("metaDocumentType").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.META_DOCUMENT_TYPE),
-                fieldWithPath("metaDocumentId").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Document.META_DOCUMENT_ID),
-                fieldWithPath("createdAt").type(JsonFieldType.NUMBER).description(InternalWebRestDocConstant.Document.CREATED_AT),
-                fieldWithPath("lastModifiedAt").type(JsonFieldType.NUMBER).description(InternalWebRestDocConstant.Document.LAST_MODIFIED_AT).optional(),
-                fieldWithPath("publisher").type(JsonFieldType.OBJECT).description(InternalWebRestDocConstant.Publisher.PUBLISHER).optional(),
-                fieldWithPath("publisher.id").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Publisher.ID),
-                fieldWithPath("signers").type(JsonFieldType.ARRAY).description(InternalWebRestDocConstant.Signer.SIGNER).optional(),
-                fieldWithPath("signers[].id").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Signer.ID),
-                fieldWithPath("ccs").type(JsonFieldType.ARRAY).description(InternalWebRestDocConstant.Cc.CC).optional(),
-                fieldWithPath("ccs[].id").type(JsonFieldType.STRING).description(InternalWebRestDocConstant.Cc.ID)
+                fieldWithPath("id").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.ID),
+                fieldWithPath("name").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.NAME),
+                fieldWithPath("description").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.DESCRIPTION).optional(),
+                fieldWithPath("status").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.STATUS),
+                fieldWithPath("metaDocumentType").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.META_DOCUMENT_TYPE),
+                fieldWithPath("metaDocumentId").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Document.META_DOCUMENT_ID),
+                fieldWithPath("createdAt").type(JsonFieldType.NUMBER).description(InternalWebAdapterTestConstant.Document.CREATED_AT),
+                fieldWithPath("lastModifiedAt").type(JsonFieldType.NUMBER).description(InternalWebAdapterTestConstant.Document.LAST_MODIFIED_AT).optional(),
+                fieldWithPath("publisher").type(JsonFieldType.OBJECT).description(InternalWebAdapterTestConstant.Publisher.PUBLISHER).optional(),
+                fieldWithPath("publisher.id").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Publisher.ID),
+                fieldWithPath("signers").type(JsonFieldType.ARRAY).description(InternalWebAdapterTestConstant.Signer.SIGNER).optional(),
+                fieldWithPath("signers[].id").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Signer.ID),
+                fieldWithPath("ccs").type(JsonFieldType.ARRAY).description(InternalWebAdapterTestConstant.Cc.CC).optional(),
+                fieldWithPath("ccs[].id").type(JsonFieldType.STRING).description(InternalWebAdapterTestConstant.Cc.ID)
         );
     }
 }

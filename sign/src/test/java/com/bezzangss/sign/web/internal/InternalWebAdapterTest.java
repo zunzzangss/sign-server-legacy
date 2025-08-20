@@ -26,7 +26,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 @Transactional
 @WebAppConfiguration
 @ContextConfiguration(name = "com.bezzangss.sign")
-public class InternalWebRestDocTest {
+public class InternalWebAdapterTest {
     protected MockMvc mockMvc;
 
     @Autowired
@@ -57,9 +57,9 @@ public class InternalWebRestDocTest {
 
     protected ResponseFieldsSnippet responseFieldsSnippet(JsonFieldType jsonFieldType) {
         return responseFields(
-                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description(InternalWebRestDocConstant.SUCCESS),
-                fieldWithPath("error").type(JsonFieldType.OBJECT).description(InternalWebRestDocConstant.ERROR).optional(),
-                subsectionWithPath("contents").type(jsonFieldType).description(InternalWebRestDocConstant.CONTENTS)
+                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description(InternalWebAdapterTestConstant.SUCCESS),
+                fieldWithPath("error").type(JsonFieldType.OBJECT).description(InternalWebAdapterTestConstant.ERROR).optional(),
+                subsectionWithPath("contents").type(jsonFieldType).description(InternalWebAdapterTestConstant.CONTENTS)
         );
     }
 

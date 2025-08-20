@@ -11,7 +11,7 @@ import java.util.UUID;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class ResourceInternalWebRestDoc {
+public class ResourceInternalWebAdapterTestSupport {
     public static ResultActions requestCreateByFile(MockMvc mockMvc, HttpHeaders httpHeaders, MockMultipartFile file) throws Exception {
         return mockMvc.perform(
                         fileUpload("/internal/v1/resource/create-by-file")

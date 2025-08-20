@@ -20,7 +20,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class GroupDocumentInternalWebRestDoc {
+public class GroupDocumentInternalWebAdapterTestSupport {
     public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper, GroupDocumentInternalWebCreateRequest groupDocumentInternalWebCreateRequest) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/group-document/create")

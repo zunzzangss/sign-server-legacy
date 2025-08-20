@@ -1,7 +1,7 @@
 package com.bezzangss.sign.web.internal.resources.resource;
 
-import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTest;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConfigurer;
 import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Common;
-import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Resource;
+import static com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.Common;
+import static com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.Resource;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -25,15 +25,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
-public class ResourceInternalWebRestDocTest extends InternalWebRestDocTest {
+@ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
+public class ResourceInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
     public void 리소스_생성_ByMultipartFile_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
 
         // when
-        ResultActions resultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        ResultActions resultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
 
         // then
         resultActions

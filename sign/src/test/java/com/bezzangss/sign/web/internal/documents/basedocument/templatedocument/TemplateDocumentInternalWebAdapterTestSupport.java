@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class TemplateDocumentInternalWebRestDoc {
+public class TemplateDocumentInternalWebAdapterTestSupport {
     public static ResultActions create(MockMvc mockMvc, HttpHeaders httpHeaders, ObjectMapper objectMapper, TemplateDocumentInternalWebCreateRequest request) throws Exception {
         return mockMvc.perform(
                         post("/internal/v1/template-document/create")

@@ -1,16 +1,16 @@
 package com.bezzangss.sign.web.internal.documents.associate.signer;
 
-import com.bezzangss.sign.web.internal.InternalWebRestDocTest;
-import com.bezzangss.sign.web.internal.InternalWebRestDocTestConfigurer;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTest;
+import com.bezzangss.sign.web.internal.InternalWebAdapterTestConfigurer;
 import com.bezzangss.sign.web.internal.documents.associate.signer.dto.response.SignerInternalWebResponse;
-import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.TemplateDocumentInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.request.TemplateDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.basedocument.templatedocument.dto.response.TemplateDocumentInternalWebResponse;
-import com.bezzangss.sign.web.internal.documents.document.DocumentInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.document.DocumentInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.request.StandardDocumentInternalWebCreateRequest;
 import com.bezzangss.sign.web.internal.documents.metadocument._standarddocument.dto.response.StandardDocumentInternalWebResponse;
-import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.StandardDocumentInternalWebRestDoc;
-import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebRestDoc;
+import com.bezzangss.sign.web.internal.documents.metadocument.standarddocument.StandardDocumentInternalWebAdapterTestSupport;
+import com.bezzangss.sign.web.internal.resources.resource.ResourceInternalWebAdapterTestSupport;
 import com.bezzangss.sign.web.internal.resources.resource.dto.response.ResourceInternalWebResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,8 +31,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Common;
-import static com.bezzangss.sign.web.internal.InternalWebRestDocConstant.Signer;
+import static com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.Common;
+import static com.bezzangss.sign.web.internal.InternalWebAdapterTestConstant.Signer;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -42,30 +42,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InternalWebRestDocTestConfigurer.class})
-public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
+@ContextConfiguration(classes = {InternalWebAdapterTestConfigurer.class})
+public class SignerInternalWebAdapterTest extends InternalWebAdapterTest {
     @Test
     public void 서명자_서명_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
-        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
+        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
         StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = super.responseContents(standardDocumentCreateResultActions, new ParameterizedTypeReference<StandardDocumentInternalWebResponse>() {
         });
 
         String documentId = standardDocumentInternalWebResponse.getDocument().orElseThrow(Exception::new).getId();
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("documentId", documentId);
-        ResultActions signerFindAllByIdResultActions = SignerInternalWebRestDoc.findAllByDocumentId(mockMvc, httpHeaders, params);
+        ResultActions signerFindAllByIdResultActions = SignerInternalWebAdapterTestSupport.findAllByDocumentId(mockMvc, httpHeaders, params);
         List<SignerInternalWebResponse> signerInternalWebResponses = super.responseContents(signerFindAllByIdResultActions, new ParameterizedTypeReference<List<SignerInternalWebResponse>>() {
                 })
                 .stream()
@@ -80,14 +80,14 @@ public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
                 .orElseThrow(() -> new Exception("Signer not found"));
 
         // when
-        ResultActions signerSignActions = SignerInternalWebRestDoc.sign(mockMvc, httpHeaders, signerId);
+        ResultActions signerSignActions = SignerInternalWebAdapterTestSupport.sign(mockMvc, httpHeaders, signerId);
 
         // then
         signerSignActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contents.status").value("SIGNED"));
 
-        DocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, documentId, new LinkedMultiValueMap<>())
+        DocumentInternalWebAdapterTestSupport.findById(mockMvc, httpHeaders, documentId, new LinkedMultiValueMap<>())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contents.status").value("PROCESSING"));
 
@@ -107,25 +107,25 @@ public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
     public void 서명자_전체_서명_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
-        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
+        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
         StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = super.responseContents(standardDocumentCreateResultActions, new ParameterizedTypeReference<StandardDocumentInternalWebResponse>() {
         });
 
         String documentId = standardDocumentInternalWebResponse.getDocument().orElseThrow(Exception::new).getId();
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("documentId", documentId);
-        ResultActions signerFindAllByIdResultActions = SignerInternalWebRestDoc.findAllByDocumentId(mockMvc, httpHeaders, params);
+        ResultActions signerFindAllByIdResultActions = SignerInternalWebAdapterTestSupport.findAllByDocumentId(mockMvc, httpHeaders, params);
         List<SignerInternalWebResponse> signerInternalWebResponses = super.responseContents(signerFindAllByIdResultActions, new ParameterizedTypeReference<List<SignerInternalWebResponse>>() {
                 })
                 .stream()
@@ -138,10 +138,10 @@ public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
         List<ResultActions> signerSignResultActions = new ArrayList<>();
 
         for (SignerInternalWebResponse signerInternalWebResponse : signerInternalWebResponses) {
-            signerSignResultActions.add(SignerInternalWebRestDoc.sign(mockMvc, httpHeaders, signerInternalWebResponse.getId()));
+            signerSignResultActions.add(SignerInternalWebAdapterTestSupport.sign(mockMvc, httpHeaders, signerInternalWebResponse.getId()));
         }
 
-        ResultActions documentFindByIdResultActions = DocumentInternalWebRestDoc.findById(mockMvc, httpHeaders, documentId, new LinkedMultiValueMap<>());
+        ResultActions documentFindByIdResultActions = DocumentInternalWebAdapterTestSupport.findById(mockMvc, httpHeaders, documentId, new LinkedMultiValueMap<>());
 
         // then
         for (ResultActions resultAction : signerSignResultActions) {
@@ -158,18 +158,18 @@ public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
     @Test
     public void 서명자_전체_조회_ByDocumentId_성공() throws Exception {
         // given
-        MockMultipartFile resourceMultipartFile = ResourceInternalWebRestDoc.getMockMultipartFileSuccess();
-        ResultActions resourceCreateByFileResultActions = ResourceInternalWebRestDoc.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
+        MockMultipartFile resourceMultipartFile = ResourceInternalWebAdapterTestSupport.getMockMultipartFileSuccess();
+        ResultActions resourceCreateByFileResultActions = ResourceInternalWebAdapterTestSupport.requestCreateByFile(mockMvc, httpHeaders, resourceMultipartFile);
         ResourceInternalWebResponse resourceInternalWebResponse = super.responseContents(resourceCreateByFileResultActions, new ParameterizedTypeReference<ResourceInternalWebResponse>() {
         });
 
-        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebRestDoc.getCreateRequestSuccess(resourceInternalWebResponse.getId());
-        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
+        TemplateDocumentInternalWebCreateRequest templateDocumentInternalWebCreateRequest = TemplateDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(resourceInternalWebResponse.getId());
+        ResultActions templateDocumentCreateResultActions = TemplateDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, templateDocumentInternalWebCreateRequest);
         TemplateDocumentInternalWebResponse templateDocumentInternalWebResponse = super.responseContents(templateDocumentCreateResultActions, new ParameterizedTypeReference<TemplateDocumentInternalWebResponse>() {
         });
 
-        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebRestDoc.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
-        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebRestDoc.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
+        StandardDocumentInternalWebCreateRequest standardDocumentInternalWebCreateRequest = StandardDocumentInternalWebAdapterTestSupport.getCreateRequestSuccess(templateDocumentInternalWebResponse.getId());
+        ResultActions standardDocumentCreateResultActions = StandardDocumentInternalWebAdapterTestSupport.create(mockMvc, httpHeaders, objectMapper, standardDocumentInternalWebCreateRequest);
         StandardDocumentInternalWebResponse standardDocumentInternalWebResponse = super.responseContents(standardDocumentCreateResultActions, new ParameterizedTypeReference<StandardDocumentInternalWebResponse>() {
         });
 
@@ -178,7 +178,7 @@ public class SignerInternalWebRestDocTest extends InternalWebRestDocTest {
         params.add("documentId", documentId);
 
         // when
-        ResultActions resultActions = SignerInternalWebRestDoc.findAllByDocumentId(mockMvc, httpHeaders, params);
+        ResultActions resultActions = SignerInternalWebAdapterTestSupport.findAllByDocumentId(mockMvc, httpHeaders, params);
 
         // then
         resultActions
