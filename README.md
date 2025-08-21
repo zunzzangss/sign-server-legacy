@@ -8,8 +8,7 @@
 
 ## 기술 스택
 - Language : Java 8
-- Framework : Spring Framework
-  - 4.3.30.RELEASE
+- Framework : Spring Framework 4.3.30.RELEASE
   - Spring Web Services, Spring Data JPA, Spring REST Docs 
 - Build : Gradle
 - DB : H2
