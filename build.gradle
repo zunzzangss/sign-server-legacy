@@ -102,7 +102,7 @@ subprojects {
         dependsOn ':sign-common:asciidocErrorCode'
 
         sourceDir = file("src/adoc")
-        outputDir = file("build/adoc/internal")
+        outputDir = file("../docs/adoc/internal")
 
         sources {
             include "internal.adoc"
