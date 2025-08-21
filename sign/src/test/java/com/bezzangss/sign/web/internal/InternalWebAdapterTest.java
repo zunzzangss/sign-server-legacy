@@ -3,9 +3,11 @@ package com.bezzangss.sign.web.internal;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.ClassRule;
+import org.junit.rules.TemporaryFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -27,26 +30,33 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 @WebAppConfiguration
 @ContextConfiguration(name = "com.bezzangss.sign")
 public class InternalWebAdapterTest {
-    protected MockMvc mockMvc;
-
     @Autowired
     private WebApplicationContext context;
 
-    @Rule
-    public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("build/generated-snippets-web-internal");
+    @Autowired
+    private Environment environment;
 
     @Autowired
     protected ObjectMapper objectMapper;
 
-    protected HttpHeaders httpHeaders = new HttpHeaders();
+    protected MockMvc mockMvc;
+
+    protected HttpHeaders httpHeaders;
+
+    @ClassRule
+    public static final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("build/generated-snippets-web-internal");
+
+    @ClassRule
+    public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
     public void before() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+        this.httpHeaders = this.getHttpHeader();
 
-        httpHeaders = this.getHttpHeader();
+        System.setProperty("com.bezzangss.sign.storage.file-system.prefix-path", new File(temporaryFolder.getRoot(), "sign/resources").getAbsolutePath());
     }
 
     private HttpHeaders getHttpHeader() {

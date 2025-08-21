@@ -97,6 +97,7 @@ subprojects {
 
     // restdoc
     task asciidocInternal(type: org.asciidoctor.gradle.jvm.AsciidoctorTask) {
+        dependsOn test
         dependsOn ':sign:asciidocCss'
         dependsOn ':sign-common:asciidocErrorCode'
 

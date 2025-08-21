@@ -28,6 +28,7 @@ public enum ErrorCode {
     RESOURCE_NOT_FOUND_EXCEPTION(404_11_00, "정보가 존재하지 않습니다."),
 
     RESOURCE_WRITE_INTERNAL_SERVER_ERROR(500_11_11, "리소스 쓰기 실패."),
+    RESOURCE_DELETE_INTERNAL_SERVER_ERROR(500_11_12, "리소스 삭제 실패."),
     RESOURCE_ILLEGAL_INTERNAL_SERVER_ERROR(500_11_20, "타입이 부적합합니다."),
 
     /**
