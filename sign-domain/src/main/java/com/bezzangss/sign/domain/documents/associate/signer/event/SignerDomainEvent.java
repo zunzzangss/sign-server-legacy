@@ -25,17 +25,10 @@ public class SignerDomainEvent extends ApplicationEvent {
         this.validate();
     }
 
-    public static SignerDomainEvent waits(Signer signer) {
+    public static SignerDomainEvent signed(Signer signer) {
         return SignerDomainEvent.builder()
                 .id(signer.getId())
-                .status(SignerStatus.WAITING)
-                .build();
-    }
-
-    public static SignerDomainEvent ready(Signer signer) {
-        return SignerDomainEvent.builder()
-                .id(signer.getId())
-                .status(SignerStatus.READY)
+                .status(SignerStatus.SIGNED)
                 .build();
     }
 

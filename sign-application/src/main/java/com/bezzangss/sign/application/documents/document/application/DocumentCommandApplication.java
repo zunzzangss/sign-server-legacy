@@ -7,7 +7,7 @@ import com.bezzangss.sign.application.documents.associate.signer.application.bri
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationCommandPort;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationQueryPort;
 import com.bezzangss.sign.application.documents.document.application.bridge.DocumentCommandApplicationBridge;
-import com.bezzangss.sign.application.documents.document.application.event.DocumentApplicationEvent;
+import com.bezzangss.sign.application.documents.document.application.event.DocumentApplicationEventListener;
 import com.bezzangss.sign.application.documents.document.application.mapper.DocumentApplicationMapper;
 import com.bezzangss.sign.application.documents.document.port.in.DocumentCommandApplicationPort;
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.DocumentApplicationCreateRequest;
@@ -16,10 +16,11 @@ import com.bezzangss.sign.application.documents.document.port.in.dto.request.com
 import com.bezzangss.sign.application.documents.document.port.in.dto.request.common.SignerInDocumentApplicationCreateRequest;
 import com.bezzangss.sign.application.documents.document.port.out.DocumentRepositoryPort;
 import com.bezzangss.sign.common.enums.EnumConverter;
+import com.bezzangss.sign.domain.documents.associate.signer.SignerStatus;
 import com.bezzangss.sign.domain.documents.associate.signer.aggregate.Signer;
+import com.bezzangss.sign.domain.documents.associate.signer.event.SignerDomainEvent;
 import com.bezzangss.sign.domain.documents.document.aggregate.Document;
 import com.bezzangss.sign.domain.documents.document.dto.DocumentDomainCreateRequest;
-import com.bezzangss.sign.domain.documents.document.event.DocumentDomainEvent;
 import com.bezzangss.sign.domain.documents.document.service.DocumentDomainService;
 import com.bezzangss.sign.domain.documents.metadocument.MetaDocumentType;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,12 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
-import static com.bezzangss.sign.common.exception.ErrorCode.DOCUMENT_NOT_FOUND_EXCEPTION;
-import static com.bezzangss.sign.common.exception.ErrorCode.NOT_FOUND_ARGUMENT_EXCEPTION;
+import static com.bezzangss.sign.common.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class DocumentCommandApplication implements DocumentCommandApplicationPort, DocumentCommandApplicationBridge, DocumentApplicationEvent {
+public class DocumentCommandApplication implements DocumentCommandApplicationPort, DocumentCommandApplicationBridge, DocumentApplicationEventListener {
     private final DocumentApplicationMapper documentApplicationMapper;
     private final DocumentDomainService documentDomainService;
     private final DocumentRepositoryPort documentRepositoryPort;
@@ -81,13 +81,14 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
         Document document = this.findDocumentById(id);
         List<Signer> signers = signerQueryApplicationBridge.findAllDomainByDocumentId(id);
 
-        List<ApplicationEvent> events = documentDomainService.process(signers, document);
+        ApplicationEvent event = documentDomainService.process(signers, document);
         this.update(document);
 
-        events.forEach(eventPublisher::publishEvent);
+        eventPublisher.publishEvent(event);
     }
 
-    private void complete(String id) {
+    @Override
+    public void complete(String id) {
         if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
 
         Document document = this.findDocumentById(id);
@@ -98,11 +99,18 @@ public class DocumentCommandApplication implements DocumentCommandApplicationPor
     }
 
     @EventListener
-    @Override
-    public void eventListener(DocumentDomainEvent documentDomainEvent) {
-        switch (documentDomainEvent.getStatus()) {
-            case COMPLETED:
-                this.complete(documentDomainEvent.getId());
+    public void eventListener(SignerDomainEvent signerDomainEvent) {
+        String signerId = signerDomainEvent.getId();
+        SignerStatus signerStatus = signerDomainEvent.getStatus();
+
+        switch (signerStatus) {
+            case SIGNED:
+                String id = signerApplicationQueryPort.findById(signerId).orElseThrow(() -> new ApplicationException(SIGNER_NOT_FOUND_EXCEPTION, signerId)).getDocumentId();
+
+                if (signerQueryApplicationBridge.findAllDomainByDocumentId(id).stream().allMatch(Signer::isSigned)) {
+                    this.complete(id);
+                }
+
                 break;
             default:
                 break;

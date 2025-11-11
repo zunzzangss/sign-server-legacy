@@ -2,17 +2,21 @@ package com.bezzangss.sign.application.documents.associate.signer.application;
 
 import com.bezzangss.sign.application.ApplicationException;
 import com.bezzangss.sign.application.documents.associate.signer.application.bridge.SignerCommandApplicationBridge;
-import com.bezzangss.sign.application.documents.associate.signer.application.event.SignerApplicationEvent;
+import com.bezzangss.sign.application.documents.associate.signer.application.event.SignerApplicationEventListener;
 import com.bezzangss.sign.application.documents.associate.signer.application.mapper.SignerApplicationMapper;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.SignerApplicationCommandPort;
 import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.request.SignerApplicationCreateRequest;
 import com.bezzangss.sign.application.documents.associate.signer.port.out.dto.SignerRepositoryPort;
 import com.bezzangss.sign.application.documents.document.application.bridge.DocumentQueryApplicationBridge;
+import com.bezzangss.sign.domain.documents.associate.signer.SignerStatus;
 import com.bezzangss.sign.domain.documents.associate.signer.aggregate.Signer;
 import com.bezzangss.sign.domain.documents.associate.signer.dto.SignerDomainCreateRequest;
 import com.bezzangss.sign.domain.documents.associate.signer.event.SignerDomainEvent;
 import com.bezzangss.sign.domain.documents.associate.signer.service.SignerDomainService;
+import com.bezzangss.sign.domain.documents.associate.signer.service.common.SignerDomainCommonService;
+import com.bezzangss.sign.domain.documents.document.DocumentStatus;
 import com.bezzangss.sign.domain.documents.document.aggregate.Document;
+import com.bezzangss.sign.domain.documents.document.event.DocumentDomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,9 +33,10 @@ import static com.bezzangss.sign.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class SignerCommandApplication implements SignerApplicationCommandPort, SignerCommandApplicationBridge, SignerApplicationEvent {
+public class SignerCommandApplication implements SignerApplicationCommandPort, SignerCommandApplicationBridge, SignerApplicationEventListener {
     private final SignerApplicationMapper signerApplicationMapper;
     private final SignerDomainService signerDomainService;
+    private final SignerDomainCommonService signerDomainCommonService;
     private final SignerRepositoryPort signerRepositoryPort;
 
     private final DocumentQueryApplicationBridge documentQueryApplicationBridge;
@@ -55,7 +60,8 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
         return signerRepositoryPort.create(signerApplicationMapper.toRepositoryCreateRequest(signer));
     }
 
-    private void waits(String id) {
+    @Override
+    public void waits(String id) {
         if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
 
         Signer signer = this.findById(id);
@@ -65,7 +71,8 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
         this.update(signer);
     }
 
-    private void ready(String id) {
+    @Override
+    public void ready(String id) {
         if (ObjectUtils.isEmpty(id)) throw new ApplicationException(NOT_FOUND_ARGUMENT_EXCEPTION, "id");
 
         Signer signer = this.findById(id);
@@ -83,21 +90,46 @@ public class SignerCommandApplication implements SignerApplicationCommandPort, S
         Document document = this.findDocumentByDocumentId(signer.getDocumentId());
         List<Signer> signers = this.findAllByDocumentId(signer.getDocumentId());
 
-        List<ApplicationEvent> events = signerDomainService.sign(id, signers, document);
-        this.update(signers);
+        ApplicationEvent event = signerDomainService.sign(signer, signers, document);
+        this.update(signer);
 
-        events.forEach(eventPublisher::publishEvent);
+        eventPublisher.publishEvent(event);
     }
 
     @EventListener
     @Override
     public void eventListener(SignerDomainEvent signerDomainEvent) {
-        switch (signerDomainEvent.getStatus()) {
-            case WAITING:
-                this.waits(signerDomainEvent.getId());
+        String id = signerDomainEvent.getId();
+        SignerStatus status = signerDomainEvent.getStatus();
+
+        switch (status) {
+            case SIGNED:
+                Signer signer = this.findById(id);
+                List<Signer> signers = this.findAllByDocumentId(signer.getDocumentId());
+
+                if (signers.stream().noneMatch(Signer::isReady)) {
+                    signerDomainCommonService.filterByOrder(signers, signer.getOrder() + 1).forEach(s -> this.ready(s.getId()));
+                }
+
                 break;
-            case READY:
-                this.ready(signerDomainEvent.getId());
+            default:
+                break;
+        }
+    }
+
+    @EventListener
+    @Override
+    public void eventListener(DocumentDomainEvent documentDomainEvent) {
+        String documentId = documentDomainEvent.getId();
+        DocumentStatus documentStatus = documentDomainEvent.getStatus();
+
+        List<Signer> signers = this.findAllByDocumentId(documentId);
+
+        switch (documentStatus) {
+            case PROCESSING:
+                signers.forEach(signer -> this.waits(signer.getId()));
+                signerDomainCommonService.filterByMinOrder(signers).forEach(signer -> this.ready(signer.getId()));
+
                 break;
             default:
                 break;

@@ -5,5 +5,9 @@ import com.bezzangss.sign.application.documents.associate.signer.port.in.dto.req
 public interface SignerApplicationCommandPort {
     String create(SignerApplicationCreateRequest signerApplicationCreateRequest);
 
+    void waits(String id);
+
+    void ready(String id);
+
     void sign(String id);
 }

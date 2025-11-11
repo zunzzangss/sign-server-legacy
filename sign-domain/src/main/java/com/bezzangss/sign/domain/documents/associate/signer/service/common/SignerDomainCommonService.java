@@ -17,6 +17,12 @@ public class SignerDomainCommonService {
         if (!signer.getDocumentId().equals(document.getId())) throw new DomainException(SIGNER_ILLEGAL_INTERNAL_SERVER_ERROR, signer.getId());
     }
 
+    public void validateContains(Signer signer, List<Signer> signers) {
+        if (signers.stream().noneMatch(s -> s.getId().equals(signer.getId()))) {
+            throw new DomainException(SIGNER_ILLEGAL_INTERNAL_SERVER_ERROR, signer.getId());
+        }
+    }
+
     public void validateContains(List<Signer> signers, Document document) {
         if (!signers.stream().allMatch(signer -> signer.getDocumentId().equals(document.getId()))) {
             throw new DomainException(

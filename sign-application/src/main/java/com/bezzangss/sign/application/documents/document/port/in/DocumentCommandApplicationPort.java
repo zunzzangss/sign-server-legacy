@@ -6,4 +6,6 @@ public interface DocumentCommandApplicationPort {
     String create(DocumentApplicationCreateRequest documentApplicationCreateRequest);
 
     void process(String id);
+
+    void complete(String id);
 }

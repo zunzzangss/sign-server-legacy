@@ -25,10 +25,10 @@ public class DocumentDomainEvent extends ApplicationEvent {
         this.validate();
     }
 
-    public static DocumentDomainEvent complete(Document document) {
+    public static DocumentDomainEvent processing(Document document) {
         return DocumentDomainEvent.builder()
                 .id(document.getId())
-                .status(DocumentStatus.COMPLETED)
+                .status(DocumentStatus.PROCESSING)
                 .build();
     }
 
